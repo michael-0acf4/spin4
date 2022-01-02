@@ -1,0 +1,6 @@
+(+03<5>)yx/+x      "stack is 1 -1 -1 0 -1"
+[<][<]             "stack is -1 0 -1 1 -1"
+[x]                "-1 in acc x"
+[y]                " 1 in acc y"
++                  "-1 * 1 := 0, push 0 in the stack"
+[.n]               "print 0"

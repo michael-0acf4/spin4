@@ -38,7 +38,7 @@ Example : We just want to rotate 90deg/xy, 90deg yz and -90deg/zw
 We get `(_03>5<)`, in this case the accumulator vector remains [0, 0] intially as we did nothing
 
 - Case 2 : Doing addition/substraction/... as we are rotating
-Example : adding `(+03>5<)`
+Example : adding `(+03<5>)`
     - Rotate 0 90deg, add according to the orientation of the congruent plane to initial-xy
         - acc = [0, 0] `+` [+1, +1] = [1, 1]
     - Rotate 3 90deg, add according to the orientation of the congruent plane to initial-xy
@@ -75,17 +75,17 @@ Say for example, acc = [2, 4]
     - x has to be a series of ordered rotation : for example `(+ 1>1<01>)` is equivalent to `(+01>)`
 - pushing the register value in the stack : just write `x` or `y`
     Example :
-    - `(+03>5<)x` push the value -1 to the stack, accumulator vector is `[-1, 1]`
+    - `(+03<5>)x` push the value -1 to the stack, accumulator vector is `[-1, 1]`
         - stack := ... -1
-    - `(+03>5<)yx` push the value 1 then -1 to the stack, accumulator vector is `[-1, 1]`
+    - `(+03<5>)yx` push the value 1 then -1 to the stack, accumulator vector is `[-1, 1]`
         - stack := ... 1 -1
-    - `(+03>5<)*` push the value -1 ie. `x=-1 * y=1` to the stack, accumulator vector is `[-1, 1]`
+    - `(+03<5>)*` push the value -1 ie. `x=-1 * y=1` to the stack, accumulator vector is `[-1, 1]`
         - stack := ... -1
-    - `(+03>5<)x+y` push the value -1 then 0 then 1, accumulator vector is `[-1, 1]`
+    - `(+03<5>)x+y` push the value -1 then 0 then 1, accumulator vector is `[-1, 1]`
         - stack := ... -1 0 1
-    - `(+03>5<)yx/+x` push the value 1, -1, -1, 0, then -1, accumulator vector is `[-1, 1]`
+    - `(+03<5>)yx/+x` push the value 1, -1, -1, 0, then -1, accumulator vector is `[-1, 1]`
         - stack := ... 1 -1 -1 0 -1
-- `[>]`/`[<]` : rotate the stack to the right/left
+- `[>>>..]`/`[<<..<]` : rotate the stack to the right/left
 - `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack and put the value(s) in the accumulator
 - `[.n]` : prints the top stack value as a number
 - `[.c]` : prints the top stack value as a char

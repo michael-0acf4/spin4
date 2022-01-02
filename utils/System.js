@@ -111,21 +111,20 @@ module.exports = class System {
      */
     rotateStackRight () {
         const arr = this.stack;
-        let temp = arr;
+        let temp = arr[0];
         for (let i = 0; i < arr.length; i++) {
             let next = (i + 1) % arr.length;
             let temp2 = arr[next];
             arr[next] = temp;
             temp = temp2;
         }
-        return arr;
     }
 
     /**
      * Rotate the stack array in-place (O(n) time / O(1) space)
      */
     rotateStackLeft () {
-        const arr = this.stacks;
+        const arr = this.stack;
         let temp = arr[arr.length - 1];
         for (let i = arr.length - 1; i >= 0; i--) {
             let prev = i - 1 + (i == 0 ? arr.length : 0);
@@ -133,6 +132,20 @@ module.exports = class System {
             arr[prev] = temp;
             temp = temp2;
         }
-        return arr;
+    }
+
+    /**
+     * @returns Stack top value
+     */
+    peek () {
+        return this.stack[this.stack.length - 1];
+    }
+
+    /**
+     * @returns Stack top value as a char
+     */
+    peekAsChar () {
+        let n = this.stack[this.stack.length - 1];
+        return String.fromCharCode (n);
     }
 }

@@ -1,5 +1,6 @@
 const System = require('./System');
 const Matrix = require('./Matrix');
+const { debug } = require('./Matrix');
 
 module.exports = class Interpreter {
     constructor (code) {
@@ -21,10 +22,17 @@ module.exports = class Interpreter {
         };
     }
 
+    /**
+     * Remove comments, tabs, ..etc
+     */
     clean () {
-        this.code = this.code.replace (/[ \t\r\n]/gi, '');
+        this.code = this.code.replace (/[ \t\r\n]|"(.*?)"/gi, '');
     }
 
+    /**
+     * @param {boolean} isLogical
+     * @param {string} msg 
+     */
     error (isLogical, msg) {
         const prefix = isLogical ? 'Logic' : 'Syntax';
         throw Error (prefix + ': ' + msg);
@@ -81,7 +89,86 @@ module.exports = class Interpreter {
         return cursor + 1;
     }
 
+    /**
+     * * `[>]`/`[<]` : rotate the stack to the right/left
+     * * `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack and put the value(s) in the accumulator
+     * * `[.n]` : prints the top stack value as a number
+     * * `[.c]` : prints the top stack value as a char
+     * * `[,n]` : number input (int32)
+     * * `[,c]` : char input
+     * @param {*} cursor 
+     * @param {*} debug_fun 
+     */
     beginStackOperation (cursor, debug_fun = undefined) {
+        let first_tk = this.code[cursor++];
+        let second_tk = this.code[cursor++];
+
+        if ('<>'.includes(first_tk)) {
+            // roll
+            if (first_tk == '>') this.system.rotateStackRight ();
+            if (first_tk == '<') this.system.rotateStackLeft ();
+            if (debug_fun)
+                debug_fun (['[stk]', 'rotate ' + first_tk]);
+            if (second_tk !== ']')
+                throw this.error (false, `Unrecognized token ${this.code[cursor]}, expected to be <]>, cursor ${cursor}`);
+            return cursor;
+        }
+
+        // stdout
+        if (first_tk == '.') {
+            switch (second_tk) {
+                case 'n':
+                    console.log(this.system.peek());
+                    break;
+                case 'c':
+                    console.log(this.system.peekAsChar());
+                    break;
+                default:
+                    throw this.error(false, `Unrecognized token ${this.code[pos]}, cursor ${pos}`);
+            }
+        }
+
+        // stdin
+        if (first_tk == ',') {
+            switch (second_tk) {
+                case 'n':
+                    // this.system.stdin();
+                    break;
+                case 'c':
+                    // this.system.stdinAsChar();
+                    break;
+                default:
+                    throw this.error(false, `Unrecognized token ${this.code[pos]}, cursor ${pos}`);
+            }
+        }
+
+        // [x], [y], [xy] or [yx]
+        // this is a little bit awful but it does the job
+        let components = 'xy';
+        let components_count = 0;
+        if (components.includes(first_tk)) {
+            let value = this.system.stack.pop () || 0;
+            this.system.accumulator[components.indexOf(first_tk)] = value;
+            if (debug_fun)
+                debug_fun(['[stk]', `pop value ${value}, set acc ${first_tk} as ${value}`]);
+            components_count++;
+        }
+
+        if (components.includes(second_tk)) {
+            let value = this.system.stack.pop () || 0;
+            this.system.accumulator[components.indexOf(second_tk)] = value;
+            if (debug_fun)
+                debug_fun(['[stk]', `pop value ${value}, set acc ${second_tk} as ${value}`]);
+            components_count++;
+        }
+
+        // we can be 100% sure there isn't anything more to process
+        
+        // x or y only
+        if (components_count == 1) cursor--;
+        
+        if (this.code[cursor] != ']')
+            throw this.error (false, `Unrecognized token ${this.code[cursor]}, expected to be <]>, cursor ${cursor}`);
         return cursor + 1;
     }
 
@@ -94,7 +181,6 @@ module.exports = class Interpreter {
         while (cursor < this.code.length) {
             let c = this.code[cursor];
             let pass = false;
-
             if (c == '(') {
                 cursor = this.beginRotationAt (cursor + 1, debug_fun);
                 pass = true;
