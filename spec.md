@@ -14,8 +14,8 @@
 # Intro
 Spin4 is an esoteric programming language that consist of spinning a 4D space in order to compute stuff.
 - An accumulator vector (composed with 2 registers X and Y)
-    - we accumulate values along the way by doing an addition, substraction, multiplication or integer division
-    - we can operate on both of them using addition substraction integer division...etc
+    - we accumulate values along the way by doing addition, substraction, multiplication or integer division
+    - we can operate on both components X and Y
 - A single working stack
     - its content is pushed by extracting the current accumulator value one component at a time ie. push the value of X or Y
     - can be rotated
@@ -25,7 +25,7 @@ Spin4 is an esoteric programming language that consist of spinning a 4D space in
 # Syntax
 
 ## Rotation 90deg `>` or -90deg `<` on a plane
-There is a total of 6 possible rotation for each axis.
+There is 6 planes in total, we can define a rotation for each plane in 4D.
 - xy as `0`
 - xz as `1`
 - xw as `2`
@@ -54,7 +54,7 @@ In other words, after this instruction the accumulator vector becomes [-1, 1]
     - acc = [0, 2] `-` [+1, -1] = [-1, 1]
 
 2. Does something like `(+01>(-11<)) ` make sense ?
-=> No because in the pattern `(op x)`, op has to be an operator and x has to be a series of rotation not another object.  
+=> No because in the pattern `(op x)`, op has to be an operator and x has to be a series of rotation.  
 
 ## Basics on the accumulator vector
 Say for example, acc = [2, 4]
@@ -85,7 +85,7 @@ Say for example, acc = [2, 4]
         - stack := ... -1 0 1
     - `(+03<5>)yx/+x` push the value 1, -1, -1, 0, then -1, accumulator vector is `[-1, 1]`
         - stack := ... 1 -1 -1 0 -1
-- `[>>>..]`/`[<<..<]` : rotate the stack to the right/left
+- `[>]`/`[<]` : rotate the stack to the right/left
 - `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack and put the value(s) in the accumulator
 - `[.n]` : prints the top stack value as a number
 - `[.c]` : prints the top stack value as a char

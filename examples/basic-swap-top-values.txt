@@ -1,7 +1,7 @@
 "This program swaps the top value of the stack"
 (+03<5>)      "rotate while accumulating using addition"
 
-"swaping value is easy just do something like 'xy[xy]xy' or 'yx[yx]yx' for the reverse operation"
+"swaping values is easy"
 xy            "push x, x to the stack ie. stack := -1 1"
 [xy]          "pop the 2-first top values to the accumulator respectively in the component x and y"
-xy            "push x, y to the stack (now reversed, stack : 1 -1)"
+xy            "push x, y to the stack (now reversed, stack := 1 -1)"

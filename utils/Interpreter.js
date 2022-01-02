@@ -199,9 +199,8 @@ module.exports = class Interpreter {
             // operation on the accumulator
             if ('+-/*'.includes(c)) {
                 const result = this.bin_operator [c] (...this.system.accumulator);
-                if (result !== null) {
+                if (result !== null)
                     this.system.stack.push (result);
-                }
                 if (debug_fun) 
                     debug_fun(['[acc]', 'binary operation ' + c]);
                 pass = true;
@@ -214,7 +213,7 @@ module.exports = class Interpreter {
                 const extracted = this.system.accumulator[pos];
                 this.system.stack.push (extracted);
                 if (debug_fun) 
-                    debug_fun(['[acc]', `push ${c} = ${extracted} to stack`]);
+                    debug_fun(['[acc]', `push ${c} = ${extracted} to the stack`]);
                 pass = true;
                 cursor++;
             }
