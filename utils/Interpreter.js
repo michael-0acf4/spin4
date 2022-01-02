@@ -26,7 +26,7 @@ module.exports = class Interpreter {
      * Remove comments, tabs, ..etc
      */
     clean () {
-        this.code = this.code.replace (/[ \t\r\n]|"(.*?)"/gi, '');
+        this.code = this.code.replace (/[ \n\t\r]|"(.*?)"/gi, '');
     }
 
     /**
