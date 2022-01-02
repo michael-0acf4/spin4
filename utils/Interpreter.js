@@ -85,7 +85,8 @@ module.exports = class Interpreter {
             }
             c = this.code[++cursor];
         }
-
+        if (list.length > 0)
+            throw this.error (false, `Missing rotation operator < or > for axis ${list[0]}, cursor = ${cursor}`);
         return cursor + 1;
     }
 

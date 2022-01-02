@@ -1,0 +1,12 @@
+"Rotation example featuring the rotation group factorisation and the <do nothing> operator _ "
+
+"Example with no factorisation"
+(_0>1>2>4<5<)
+
+"Example using factorisation"
+(_012>45<)
+
+"A bunch of random stuff"
+(_015> 51<0<)
+(_1234>)
+(_15<14>112<3>)
