@@ -2,7 +2,7 @@
 Spin4 is an esoteric programming language based on 4D rotations in order to do computations.
 
 # Why ?
-Why not ? Someone has to do this.
+Why not? Someone had to do it.
 
 # afSpin4 Interpeter
 The current afSpin4 interpeter is definitely not optimised but serves only as a proof of concept.
@@ -14,15 +14,15 @@ node afspin4 examples/hello-world-ez.txt --debug-step
 
 # Basic overview
 - An accumulator vector with 2 components : register X and Y
-    - we accumulate values along the way by doing addition, substraction, multiplication or integer division
-    - we can operate on both components X, Y
-    - the value of the stack is incremented/decremented as we rotate in the 4D-space
+    - We accumulate values along the way by doing addition, substraction, multiplication or integer division
+    - We can operate on both components X, Y
+    - The value of the stack is incremented/decremented as we rotate in the 4D-space
 - A single stack
     - We can push the value of the accumulator one component at a time ie. push the value of X or Y
     - We can push directly with the standard input (interpreted as a number)
-    - it can be rotated (left / right)
-    - we can pop the top element
-    - we can display the top element as a number or as an ASCII character.
+    - It can be rotated (left / right)
+    - We can pop the top element
+    - We can display the top element as a number or as an ASCII character.
 
 # Hello World
 Hello World program in Spin4
@@ -35,7 +35,7 @@ x+[>][>][x]x[<][y]x[<][<][<][<][<][<][.c][<][<][.c]y[.c][y][xy][yx][xy]
 ```
 
 # Main instructions
-- arithmetic operators `+`, `-`, `/`, `*`, `_` : add, sub, mult, int div, do nothing
+- Arithmetic operators `+`, `-`, `/`, `*`, `_` : add, sub, mult, int div, do nothing
 - `(op x)`
     - op can be any of the above arithmetic operators
     - x is a sequence of ordered rotation : for example `(+ 1>1<01>)` is equivalent to `(+01>)`
@@ -61,9 +61,9 @@ x+[>][>][x]x[<][y]x[<][<][<][<][<][<][.c][<][<][.c]y[.c][y][xy][yx][xy]
     Example :
     - `{(+50>)?x}y` stops as soon as the accumulator x component is 0 then pushes y component value to the stack
 
-# The main concept
+# Main concept
 ## Rotation 90deg `>` or -90deg `<`
-In 4D, we can form a total of 6 planes from the basis vectors, a plane of rotation is the equivalent concept to the center of rotation in 2 dimension ie. there is always an invariant plane under a 4D rotation.
+In 4D, we can form a total of 6 planes from the base vectors, a plane of rotation is the equivalent concept to the center of rotation in 2D ie. there is always an invariant plane under a 4D rotation.
 - xy as `0` (xy-plane is invariant)
 - xz as `1` (xz-plane is invariant)
 - xw as `2` (xw-plane is invariant)
@@ -73,17 +73,16 @@ In 4D, we can form a total of 6 planes from the basis vectors, a plane of rotati
 
 * We start a rotation or a sequence of rotations with the syntax `(main_operator seq_of_rotation)`
 * What happens to the accumulator after a rotation ?
-    - The accumulator vector is changed : X, Y increments/decrements
+    - The accumulator vector state is changed : X, Y increments/decrements
     - The system becomes oriented in some way
     - Conceptually speaking, in order to compute the next state of the accumulator vector,
-    Spin4 takes the two only basis vectors that generate the same plane as `[1, 0, 0, 0]` and `[0, 1, 0, 0]`
-    Say for example we got `[-1, 0, 0, 0]` and `[0, 1, 0, 0]` in the system matrix, the orientation signature becomes `[-1, 1]`, we can then compute the next accumulator state `current_acc + [-1, 1]`
+    Spin4 takes the two only base vectors which generate the same plane as `[1, 0, 0, 0]` and `[0, 1, 0, 0]`
+    Say for example that we have `[-1, 0, 0, 0]` and `[0, 1, 0, 0]` in the system matrix, the orientation signature becomes `[-1, 1]`, we can then compute the next accumulator state `current_acc + [-1, 1]`
 
 - Case 1 : The `do nothing` operator `_`
 Example : 
-    In some case, we just want to rotate 90deg/xy, 90deg yz and -90deg/zw and do nothing along the way.
-    In the expression `(_03>5<)`, the accumulator vector remains [0, 0] as we did nothing but the orientation
-    signature has changed. (obviously)
+    In some case, we just want to do a sequence of rotation and do nothing along the way.
+    In the expression `(_03>5<)`, the accumulator vector remains [0, 0]
 
 - Case 2 : Doing addition/substraction/... as we are rotating
 Example : `(+03<5>)`
