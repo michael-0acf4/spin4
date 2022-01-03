@@ -59,6 +59,8 @@ module.exports = class Interpreter {
             } else {
                 // is either > or <
                 if (rotation_str.includes(c)) {
+                    if (list.length == 0)
+                        throw this.error (false, `Expected a plane index 0 .. 5 but got directly a ${c}, cursor = ${cursor - 1}`);
                     for (let axis_index of list) {
                         let plane = planes[axis_index];
                         let makeMinus = orientation_map[c];
@@ -190,15 +192,15 @@ module.exports = class Interpreter {
         const pos = components.indexOf(which_component);
         let message = '';
         if (this.system.accumulator[pos] == 0) {
+            message = `stop loop n.${this.loop_stack.length}`;
             this.loop_stack.pop();
-            message = 'end loop';
         } else {
+            message = `repeat loop n.${this.loop_stack.length}`;
             cursor = this.loop_stack[this.loop_stack.length - 1];
-            message = 'repeat loop';
         }
 
         if (debug_fun)
-            debug_fun(['[----] Loop ', message, cursor]);
+            debug_fun(['[ < ]', message]);
         
         return cursor;
     }
@@ -219,8 +221,11 @@ module.exports = class Interpreter {
             }
 
             if (c == '{') {
-                this.loop_stack.push (cursor);
+                this.loop_stack.push (cursor + 1);
+                let n = this.loop_stack.length;
                 pass = true;
+                if (debug_fun) 
+                    debug_fun(['[ > ]', `start loop n.${n}`]);
                 cursor++;
             }
 

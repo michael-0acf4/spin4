@@ -1,5 +1,7 @@
 {                              "start first loop"
     {                          "start second loop"
-        (+01>0<)x 
+        (+01>0<) 
     ?y}                        "Checks if the y-accumulator is 0, if not restart the second loop"
+    +                          "12 + 0"
+    [.n]                       "prints 12"
 ?y}                            "Checks if the y-accumulator is 0, if not restart the first loop"

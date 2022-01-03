@@ -71,8 +71,8 @@ module.exports = class System {
             const dot_a = axis_a.vec.dot (init_x);
             const dot_b = axis_b.vec.dot (init_y);
             // 100% sure they are either perpendicular or colinear
-            // => colinear means the dot product is not 0 in our particular setup that only uses 90deg rotations
-            // if dot < 0 then the given axis is in the opposite direction of y^ or x^
+            // => colinear here means that the dot product is not 0 because our particular setup uses 90deg rotations
+            // if dot < 0 then the given axis is in the opposite direction of x^ or y^
             if (dot_a != 0 && dot_b != 0) {
                 ans = [
                     {isReversed : dot_a < 0, ... axis_a}, 
