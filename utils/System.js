@@ -1,6 +1,40 @@
+const fs = require ('fs');
+const readline = require ('readline');
 const Rotation = require("./Rotation");
 const Matrix = require("./Matrix");
 const Vec4D = require("./Vec4D");
+
+function readInput () {
+    const rl = readline.createInterface ({
+        input : process.stdin, output : process.stdout
+    });
+    return new Promise ((resolve, reject) => {
+        rl.question('>', (ans) => {
+            resolve (ans);
+            rl.close();
+        });
+    });
+}
+
+function writeOutput (str) {
+    const rl = readline.createInterface ({
+        input : process.stdin, output : process.stdout
+    });
+    rl.write (str);
+    rl.close ();
+}
+
+function readInput () {
+    const rl = readline.createInterface ({
+        input : process.stdin, output : process.stdout
+    });
+    return new Promise ((resolve, reject) => {
+        rl.question('>', (ans) => {
+            resolve (ans);
+            rl.close();
+        });
+    });
+}
 
 module.exports = class System {
     constructor () {
@@ -43,10 +77,10 @@ module.exports = class System {
     /**
      * * Since the cross product doesnt work in higher dim like 4D
      * * We must use the dot product to identify the congruent plane to the initial-xy-plane
-     *  which is by definition the only reference that could give us the current two-stacks + orientation datas
+     *  which is by definition the only reference that could give us the current orientation datas
      * * We are using +-pi/2 rotations which means that a plane must be congruent to the initial-xy-plane no
      *  matter how many times we rotate the system, by identifying the vectors generating this plane
-     *  we can tell the axis and the orientation (up/down := top stack / stack reversed)
+     *  we can tell the axis and the orientation (up/down/left/right)
      * @param {debug_mode?} boolean
      * @returns [{isReversed : boolean, axis : string, vec : Vec4D}, {isReversed : boolean, axis : string, vec : Vec4D}]
      */
@@ -147,5 +181,23 @@ module.exports = class System {
     peekAsChar () {
         let n = this.stack[this.stack.length - 1];
         return String.fromCharCode (n);
+    }
+
+    async outputAsChar () {
+        await writeOutput (this.peekAsChar ());
+    }
+
+    async outputAsNumber () {
+        await writeOutput ('' + this.peek ());
+    }
+
+    async inputAsChar () {
+        const str = await readInput ();
+        this.stack.push (str.charCodeAt(0));
+    }
+
+    async inputAsNumber () {
+        const str = await readInput ();
+        this.stack.push (parseInt(str));
     }
 }

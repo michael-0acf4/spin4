@@ -1,0 +1,21 @@
+[,n]                           "stdin as a number"
+
+ "First iteration"
+(+0>)                          "xz rotation +[1, -1]"
+x[.n]y                         "store the current acc"
+[<]
+[xy]y
+-
+[y]
+
+ "(n - 1) - iterations"
+
+{
+    x[>][xy]                   "transforms the stack in such a way that it is identical to the code above"
+    (+0>)                      "xz rotation +[1, -1]"
+    x[.n]y                     "store current acc"
+    [<]
+    [xy]y
+    -
+    [y]
+?y}

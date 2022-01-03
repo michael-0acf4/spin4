@@ -100,10 +100,8 @@ module.exports = class Interpreter {
      * * `[.c]` : prints the top stack value as a char
      * * `[,n]` : number input (int32)
      * * `[,c]` : char input
-     * @param {*} cursor 
-     * @param {*} debug_fun 
      */
-    beginStackOperation (cursor, debug_fun = undefined) {
+    async beginStackOperation (cursor, debug_fun = undefined) {
         let first_tk = this.code[cursor++];
         let second_tk = this.code[cursor++];
 
@@ -122,10 +120,14 @@ module.exports = class Interpreter {
         if (first_tk == '.') {
             switch (second_tk) {
                 case 'n':
-                    console.log(this.system.peek());
+                    await this.system.outputAsNumber ();
+                    if(debug_fun)
+                        debug_fun (['\n[---]', 'stdout :' + this.system.peek()]);
                     break;
                 case 'c':
-                    console.log(this.system.peekAsChar());
+                    await this.system.outputAsChar ();
+                    if(debug_fun)
+                        debug_fun (['\n[---]', 'stdout : ' + this.system.peekAsChar()]);
                     break;
                 default:
                     throw this.error(false, `Unrecognized token ${this.code[pos]}, cursor ${pos}`);
@@ -136,10 +138,10 @@ module.exports = class Interpreter {
         if (first_tk == ',') {
             switch (second_tk) {
                 case 'n':
-                    // this.system.stdin();
+                    await this.system.inputAsNumber();
                     break;
                 case 'c':
-                    // this.system.stdinAsChar();
+                    await this.system.inputAsChar();
                     break;
                 default:
                     throw this.error(false, `Unrecognized token ${this.code[pos]}, cursor ${pos}`);
@@ -205,7 +207,7 @@ module.exports = class Interpreter {
         return cursor;
     }
 
-    run (debug_fun = undefined) {
+    async run (debug_fun = undefined) {
         let cursor = 0;
         while (cursor < this.code.length) {
             let c = this.code[cursor];
@@ -216,7 +218,7 @@ module.exports = class Interpreter {
             }
 
             if (c == '[') {
-                cursor = this.beginStackOperation (cursor + 1, debug_fun);
+                cursor = await this.beginStackOperation (cursor + 1, debug_fun);
                 pass = true;
             }
 

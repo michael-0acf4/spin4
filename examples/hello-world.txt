@@ -1,0 +1,53 @@
+"Key note : Running the same rotation 4 times is like doing nothing"
+
+"Hello World"
+
+{(+1>)x?y}                              "Rzw(+-pi/2) will agregate acc to [0, 0] exactly after 4 iterations"
+                                        "stack 1 2 3 4"
+(+0000>)*                               "stack 1, 2, 3, 4, 32"
+
+"The following piece of code uses the following trick, '[f]f' where f = x or y := take the top and put in 'acc u'"
+
+[<][<][y]y[>][>]
+[x]x*
+
+[>][>][y]y[<][<]
+
+[x]+[x]+                                "stack 1, 2, 3, 4, 32, 72"
+[.c]                                    "prints H"
+[x]x+[x]+[x]+[x]+                       "got 88"
+[<][yx]y[>]-                            "-1, stack 1, 2, 3, 4, 32, 72, 87"
+
+(+1054<5401>012111<)x(+0>)x             "stack 1, 2, 3, 4, 32, 72, 87, 100, 101"
+[.c]                                    "prints e"
+
+[<][<][<][<]
+[yx]xy
+[>][>][>][>]
++[xy]y+                                "stack 1, 2, 3, 4, 32, 72, 87, 100, 101, 108"
+[.c][.c]                               "prints ll"
+
+[x]x[<][<][<][y]y[>][>][>]+            "stack 1, 2, 3, 4, 32, 72, 87, 100, 101, 108, 111"
+[.c]                                   "prints o"
+[x]x+                                  "stack 1, 2, 3, 4, 32, 72, 87, 100, 101, 108, 111, 114"
+[>][>]
+[x]x
+[<]
+[y]x
+[<]                            
+
+[<][<]                                 "removes 1, 2 from the stack"
+[<][<][<]
+[.c]                                   "prints <space>"
+
+[<][<]
+[.c]                                   "prints W"
+y[.c][y]                               "prints o"
+
+[xy][yx][xy][y]                        "removing a bunch of stuff"
+
+[.c]                                   "prints r"
+[xy]                                   "removing a bunch of stuff"
+[.c]                                   "prints l"
+[yx]                                   "removing a bunch of stuff"
+[.c]                                   "prints d"
