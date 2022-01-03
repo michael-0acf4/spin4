@@ -101,7 +101,7 @@ The accumulator vector then becomes [-1, 1]
     - acc = [0, 2] `-` [+1, -1] = [-1, 1]
 
 2. Does something like `(+01>(-11<)) ` make sense ?
-=> No because in the pattern `(op x)`, op has to be an operator and x has to be a series of rotation.  
+=> No because in the pattern `(op x)`, op has to be an arithmetic operator and x has to be a series of rotation.  
 
 ## Basics on the accumulator vector
 Say for example, acc = [2, 4]
