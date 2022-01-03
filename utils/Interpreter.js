@@ -8,6 +8,7 @@ module.exports = class Interpreter {
         this.clean ();
 
         this.system = new System ();
+        this.loop_stack = [];
 
         this.bin_operator = {
             '+' : (x, y) => x + y,
@@ -173,8 +174,33 @@ module.exports = class Interpreter {
         return cursor + 1;
     }
 
-    beginLoopAt (cursor, debug_fun = undefined) {
-        return cursor + 1;
+    /**
+     * * Syntax ?x or y}
+     */
+    endLoopAt (cursor, debug_fun = undefined) {
+        // ? skipped
+        let components = 'xy';
+        let which_component = this.code[cursor++]; // x or y
+        let end_loop = this.code[cursor++]; // }
+
+        if (!components.includes(which_component))
+            throw this.error (false, `Unrecognized token ${which_component}, expected to be only x or y, cursor ${cursor}`);
+        if (end_loop != '}')
+            throw this.error (false, `Unrecognized token ${end_loop}, expected to be <}>, cursor ${cursor}`);
+        const pos = components.indexOf(which_component);
+        let message = '';
+        if (this.system.accumulator[pos] == 0) {
+            this.loop_stack.pop();
+            message = 'end loop';
+        } else {
+            cursor = this.loop_stack[this.loop_stack.length - 1];
+            message = 'repeat loop';
+        }
+
+        if (debug_fun)
+            debug_fun(['[----] Loop ', message, cursor]);
+        
+        return cursor;
     }
 
     run (debug_fun = undefined) {
@@ -193,7 +219,13 @@ module.exports = class Interpreter {
             }
 
             if (c == '{') {
-                cursor = this.beginLoopAt (cursor + 1, debug_fun);
+                this.loop_stack.push (cursor);
+                pass = true;
+                cursor++;
+            }
+
+            if (c == '?') { // ?x} end loop
+                cursor = this.endLoopAt (cursor + 1, debug_fun);
                 pass = true;
             }
 
