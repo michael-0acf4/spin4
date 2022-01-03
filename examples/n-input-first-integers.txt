@@ -1,3 +1,6 @@
+"Spin4 example"
+"author : afmika"
+
 [,n]                           "stdin as a number"
 
  "First iteration"

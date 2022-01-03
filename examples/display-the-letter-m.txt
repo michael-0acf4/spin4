@@ -1,3 +1,6 @@
+"Spin4 example"
+"author : afmika"
+
 " Displaying the letter M was never made so easy :) "
 
 (+000>)**[yx]*/x(-0<1204>)x[<][xy]-[.c]

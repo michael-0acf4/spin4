@@ -1,2 +1,5 @@
+"Spin4 example"
+"author : afmika"
+
 (+03<5>)      "rotate while accumulating using addition"
 yx*           "push y, x and x * y to the stack"

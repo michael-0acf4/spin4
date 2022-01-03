@@ -1,3 +1,6 @@
+"Spin4 example"
+"author : afmika"
+
 "This program swaps the top value of the stack"
 (+03<5>)      "rotate while accumulating using addition"
 

@@ -1,3 +1,6 @@
+"Spin4 example"
+"author : afmika"
+
 "Rotation example featuring the rotation group factorisation and the <do nothing> operator _ "
 
 "Example with no factorisation"

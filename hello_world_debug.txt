@@ -1,0 +1,158 @@
+[ > ] start loop n.1
+[rot] rotate 1 (xz) +90deg, + [1, -1] -> acc = [1, -1]
+[acc] push x = 1 to the stack
+[ < ] repeat loop n.1
+[rot] rotate 1 (xz) +90deg, + [1, -1] -> acc = [2, -2]
+[acc] push x = 2 to the stack
+[ < ] repeat loop n.1
+[rot] rotate 1 (xz) +90deg, + [1, 1] -> acc = [3, -1]
+[acc] push x = 3 to the stack
+[ < ] repeat loop n.1
+[rot] rotate 1 (xz) +90deg, + [1, 1] -> acc = [4, 0]
+[acc] push x = 4 to the stack
+[ < ] stop loop n.1
+[rot] rotate 0 (xy) +90deg, + [1, 1] -> acc = [5, 1]
+[rot] rotate 0 (xy) +90deg, + [1, 1] -> acc = [6, 2]
+[rot] rotate 0 (xy) +90deg, + [1, 1] -> acc = [7, 3]
+[rot] rotate 0 (xy) +90deg, + [1, 1] -> acc = [8, 4]
+[acc] binary operation *
+[stk] rotate <
+[stk] rotate <
+[stk] pop value 2, set acc y as 2
+[acc] push y = 2 to the stack
+[stk] rotate >
+[stk] rotate >
+[stk] pop value 32, set acc x as 32
+[acc] push x = 32 to the stack
+[acc] binary operation *
+[stk] rotate >
+[stk] rotate >
+[stk] pop value 4, set acc y as 4
+[acc] push y = 4 to the stack
+[stk] rotate <
+[stk] rotate <
+[stk] pop value 64, set acc x as 64
+[acc] binary operation +
+[stk] pop value 68, set acc x as 68
+[acc] binary operation +
+
+[---] stdout : H
+[stk] pop value 72, set acc x as 72
+[acc] push x = 72 to the stack
+[acc] binary operation +
+[stk] pop value 76, set acc x as 76
+[acc] binary operation +
+[stk] pop value 80, set acc x as 80
+[acc] binary operation +
+[stk] pop value 84, set acc x as 84
+[acc] binary operation +
+[stk] rotate <
+[stk] pop value 1, set acc y as 1
+[stk] pop value 88, set acc x as 88
+[acc] push y = 1 to the stack
+[stk] rotate >
+[acc] binary operation -
+[rot] rotate 1 (xz) -90deg, + [1, 1] -> acc = [89, 2]
+[rot] rotate 0 (xy) -90deg, + [1, 1] -> acc = [90, 3]
+[rot] rotate 5 (zw) -90deg, + [1, -1] -> acc = [91, 2]
+[rot] rotate 4 (yw) -90deg, + [-1, -1] -> acc = [90, 1]
+[rot] rotate 5 (zw) +90deg, + [1, -1] -> acc = [91, 0]
+[rot] rotate 4 (yw) +90deg, + [1, -1] -> acc = [92, -1]
+[rot] rotate 0 (xy) +90deg, + [1, -1] -> acc = [93, -2]
+[rot] rotate 1 (xz) +90deg, + [1, -1] -> acc = [94, -3]
+[rot] rotate 0 (xy) -90deg, + [1, -1] -> acc = [95, -4]
+[rot] rotate 1 (xz) -90deg, + [1, -1] -> acc = [96, -5]
+[rot] rotate 2 (xw) -90deg, + [1, -1] -> acc = [97, -6]
+[rot] rotate 1 (xz) -90deg, + [1, 1] -> acc = [98, -5]
+[rot] rotate 1 (xz) -90deg, + [1, 1] -> acc = [99, -4]
+[rot] rotate 1 (xz) -90deg, + [1, -1] -> acc = [100, -5]
+[acc] push x = 100 to the stack
+[rot] rotate 0 (xy) +90deg, + [1, -1] -> acc = [101, -6]
+[acc] push x = 101 to the stack
+
+[---] stdout : e
+[stk] rotate <
+[stk] rotate <
+[stk] rotate <
+[stk] rotate <
+[stk] pop value 4, set acc y as 4
+[stk] pop value 3, set acc x as 3
+[acc] push x = 3 to the stack
+[acc] push y = 4 to the stack
+[stk] rotate >
+[stk] rotate >
+[stk] rotate >
+[stk] rotate >
+[acc] binary operation +
+[stk] pop value 7, set acc x as 7
+[stk] pop value 101, set acc y as 101
+[acc] push y = 101 to the stack
+[acc] binary operation +
+
+[---] stdout : l
+
+[---] stdout : l
+[stk] pop value 108, set acc x as 108
+[acc] push x = 108 to the stack
+[stk] rotate <
+[stk] rotate <
+[stk] rotate <
+[stk] pop value 3, set acc y as 3
+[acc] push y = 3 to the stack
+[stk] rotate >
+[stk] rotate >
+[stk] rotate >
+[acc] binary operation +
+
+[---] stdout : o
+[stk] pop value 111, set acc x as 111
+[acc] push x = 111 to the stack
+[acc] binary operation +
+[stk] rotate >
+[stk] rotate >
+[stk] pop value 108, set acc x as 108
+[acc] push x = 108 to the stack
+[stk] rotate <
+[stk] pop value 111, set acc y as 111
+[acc] push x = 108 to the stack
+[stk] rotate <
+[stk] rotate <
+[stk] rotate <
+[stk] rotate <
+[stk] rotate <
+[stk] rotate <
+
+[---] stdout :  
+[stk] rotate <
+[stk] rotate <
+
+[---] stdout : W
+[acc] push y = 111 to the stack
+
+[---] stdout : o
+[stk] pop value 111, set acc y as 111
+[stk] pop value 87, set acc x as 87
+[stk] pop value 72, set acc y as 72
+[stk] pop value 32, set acc y as 32
+[stk] pop value 4, set acc x as 4
+[stk] pop value 3, set acc x as 3
+[stk] pop value 2, set acc y as 2
+[stk] pop value 1, set acc y as 1
+
+[---] stdout : r
+[stk] pop value 114, set acc x as 114
+[stk] pop value 108, set acc y as 108
+
+[---] stdout : l
+[stk] pop value 108, set acc y as 108
+[stk] pop value 101, set acc x as 101
+
+[---] stdout : d
+
+Final stack  [ 100 ]
+Final acc [ 101, 108 ]
+Core tensor 
+0 0 0 1
+-1 0 0 0
+0 1 0 0
+0 0 1 0
