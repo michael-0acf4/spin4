@@ -1,0 +1,28 @@
+
+x                   "0"
+(+0>)y              "1"
+y                   "/!\ push an extra 1 to the stack : remove this part for an 'is-odd' program"
+[,n]                "stack 0, 1, n"
+[yx]+yx[yx]+[x]     "/!\ stack 0, 1, (n + 1) : /!\ remove this part for an 'is-odd' program"
+(+0>)y[yx]xxy       "stack = 0, 1, (n + 1), (n + 1), 2 .. acc = (n + 1), 2"
+
+{
+    [yx]           "first iter -> stack 0, 1, (n + 1) .. acc = (n + 1), 2"
+    /              "first iter -> stack 0, 1, (n + 1), ((n + 1) // 2) .. acc = (n + 1), 2"
+    y              "first iter -> stack 0, 1, (n + 1), ((n + 1) // 2), 2 .. acc = (n + 1), 2"
+    [>][>][>]      "first iter -> stack n, ((n + 1) // 2), 2, 0, 1"
+    "increments the quotient q"
+    [yx]
+    +
+    y
+    [<][<][<]
+?x}
+
+"The stack should look like this 1, 1, (n + 1), q, 2"
+"if n is even then (n + 1) = 2*q + 0"
+
+[yx]            "acc = q, 2"
+*               "stack = 1, 1, (n + 1), q * 2"
+[yx]            "acc = (n + 1), q * 2"
+-               "stack = 1, 1, r with r = (n + 1) - q * 2 = (n + 1) (mod 2)"
+[.n]            "prints 0 if n is even, 1 otherwise"     

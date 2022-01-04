@@ -1,0 +1,7 @@
+"Spin4 example"
+"author : afmika"
+"is-even program : takes an integer, prints 1 if it is even, 0 otherwise"
+
+x(+0>)yy[,n][yx]+yx[yx]+[x](+0>)y[yx]xxy
+{[yx]/y[>][>][>][yx]+y[<][<][<]?x}
+[yx]*[yx]-[.n]

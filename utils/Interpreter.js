@@ -121,7 +121,7 @@ module.exports = class Interpreter {
                 case 'n':
                     await this.system.outputAsNumber ();
                     if(debug_fun)
-                        debug_fun (['\n[---]', 'stdout :' + this.system.peek()]);
+                        debug_fun (['\n[---]', 'stdout : ' + this.system.peek()]);
                     break;
                 case 'c':
                     await this.system.outputAsChar ();

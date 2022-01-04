@@ -35,7 +35,7 @@ x+[>][>][x]x[<][y]x[<][<][<][<][<][<][.c][<][<][.c]y[.c][y][xy][yx][xy]
 [y][.c][xy][.c][yx][.c]
 ```
 ## Fibonacci sequence
-As a tradition, here is the Fibonacci sequence in Spin4. This program takes a positive integer n as an input (stdin) and then print the n-first Fibonacci number.
+As a tradition, here is the Fibonacci sequence in Spin4. This program takes a positive integer n as an input (stdin) and then prints a list of the n first Fibonacci numbers.
 ```
 [,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx[.n][<][.c][>][.n][xy]xy
 {[xy]+x[xy]xy[<][.c][>][.n][>][>][yx]y-[yx]yx[>][>][>]?y}
