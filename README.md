@@ -24,7 +24,8 @@ node afspin4 examples/hello-world-ez.txt --debug-step
     - We can pop the top element
     - We can display the top element as a number or as an ASCII character.
 
-# Hello World
+# Examples
+## Hello World
 Hello World program in Spin4
 ```
 {(+1>)x?y}(+0000>)*[<][<][y]y[>][>][x]x*[>][>][y]y[<][<][x]+[x]+[.c]
@@ -33,7 +34,7 @@ Hello World program in Spin4
 x+[>][>][x]x[<][y]x[<][<][<][<][<][<][.c][<][<][.c]y[.c][y][xy][yx][xy]
 [y][.c][xy][.c][yx][.c]
 ```
-# Fibonacci sequence
+## Fibonacci sequence
 As a tradition, here is the Fibonacci sequence in Spin4. This program takes a positive integer n as an input (stdin) and then print the n-first Fibonacci number.
 ```
 [,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx[.n][<][.c][>][.n][xy]xy
