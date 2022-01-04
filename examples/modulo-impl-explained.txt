@@ -1,0 +1,30 @@
+"Spin4 example"
+"author : afmika"
+"n (mod m) implementation : takes two integers n and m, prints n (mod m)"
+"This program is basically the same as 'is-even' with a few differences"
+
+x                   "0"
+(+0>)y              "1"
+[,n]                "stack 0, 1, n"
+(+0>)y[yx]xx        "stack = 0, 1, n, n .. acc = n, 2"
+[,n]                "stack = 0, 1, n, n, m .. acc = n, 2"
+[y]y                "stack = 0, 1, n, n, m .. acc = n, m"
+{
+    [yx]           "first iter -> stack 0, 1, n .. acc = n, 2"
+    /              "first iter -> stack 0, 1, n, (n // m) .. acc = n, 2"
+    y              "first iter -> stack 0, 1, n, (n // m), 2 .. acc = n, 2"
+    [>][>][>]      "first iter -> stack n, (n // m), 2, 0, 1"
+    "increments the quotient q"
+    [yx]
+    +
+    y
+    [<][<][<]
+?x}
+
+"The stack should look like this 1, 1, n, q, m"
+
+[yx]            "acc = q, 2"
+*               "stack = 1, 1, n, q * m"
+[yx]            "acc = n, q * m"
+-               "stack = 1, 1, r with r = n - q * m = n (mod m)"
+[.n]            "prints the result (top element of the stack)"

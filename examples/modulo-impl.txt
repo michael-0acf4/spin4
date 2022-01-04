@@ -1,0 +1,7 @@
+"Spin4 example"
+"author : afmika"
+"n (mod m) implementation : takes two integers n and m, prints n (mod m)"
+
+x(+0>)y[,n](+0>)y[yx]xx[,n][y]y
+{[yx]/y[>][>][>][yx]+y[<][<][<]?x}
+[yx]*[yx]-[.n]
