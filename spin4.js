@@ -46,6 +46,6 @@ function help () {
             console.log('\nClean code', engine.code);
         }
     } catch (err) {
-        console.error (err);
+        console.error (err.message || err);
     }
 }) ();
