@@ -1,0 +1,7 @@
+"Spin4 example"
+"author : afmika"
+"Fibonacci sequence given an input number (stdin)"
+
+[,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx
+[.n][<][.c][>][.n][xy]xy{[xy]+x[xy]xy[<]
+[.c][>][.n][>][>][yx]y-[yx]yx[>][>][>]?y}

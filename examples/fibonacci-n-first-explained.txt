@@ -1,0 +1,26 @@
+"Spin4 example"
+"author : afmika"
+"Fibonacci sequence given an input number (stdin)"
+
+[,n]                             "stack : 32, input_val"
+
+(+00>)y*[y]*[x]*[>][x]           "32 to the stack"
+(-00<)
+
+(+0>)xxx              "stack : 32, input_val, 1, 1, 1, the extra '1' is needed for decrementing input_val later"
+[.n][<][.c][>][.n]    "prints 1 1"
+
+"correction"
+[xy]xy
+{
+    " Doing the fibo stuff "
+    [xy]+x
+    [xy]xy
+    [<][.c][>][.n]    "prints the next sequence"
+
+    " decrementing the count "
+    [>][>]
+    [yx]y
+    -[yx]yx
+    [>][>][>]
+?y}
