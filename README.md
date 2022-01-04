@@ -93,7 +93,7 @@ Example : `(+03<5>)`
     - Rotate 5 (-90deg), add according to the orientation of the congruent plane to the initial xy
         - acc = [0, 2] `+` [-1, -1] = [-1, 1]
 The accumulator vector then becomes [-1, 1]
-
+ 
 1. What is the state of the accumulator after `(-01>3<)` or `(-0>1>3<)` ?
     - acc = [0, 0] `-` [+1, +1] = [1, 1]
     - acc = [1, 1] `-` [+1, -1] = [0, 2]

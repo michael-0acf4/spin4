@@ -1,6 +1,5 @@
 const System = require('./System');
 const Matrix = require('./Matrix');
-const { debug } = require('./Matrix');
 
 module.exports = class Interpreter {
     constructor (code) {
@@ -130,7 +129,7 @@ module.exports = class Interpreter {
                         debug_fun (['\n[---]', 'stdout : ' + this.system.peekAsChar()]);
                     break;
                 default:
-                    throw this.error(false, `Unrecognized token ${this.code[pos]}, cursor ${pos}`);
+                    throw this.error(false, `Unrecognized token ${this.code[cursor]}, cursor ${cursor}`);
             }
         }
 
@@ -144,7 +143,7 @@ module.exports = class Interpreter {
                     await this.system.inputAsChar();
                     break;
                 default:
-                    throw this.error(false, `Unrecognized token ${this.code[pos]}, cursor ${pos}`);
+                    throw this.error(false, `Unrecognized token ${this.code[cursor]}, cursor ${cursor}`);
             }
         }
 
@@ -179,7 +178,7 @@ module.exports = class Interpreter {
     }
 
     /**
-     * * Syntax ?x or y}
+     * * Syntax ?x} or ?y}
      */
     endLoopAt (cursor, debug_fun = undefined) {
         // ? skipped

@@ -1,0 +1,17 @@
+[,n]                             "stack : 32, input_val"
+
+(+00>)y*[y]*[x]*[>][x]           "32 to the stack"
+(-00<)
+
+
+(+0>)xx              "stack : 32, input_val, 1, 1"
+[.n]
+[<]
+[.c]
+[.>]
+[.n]             "prints 1 1"
+
+
+[xy]+x
+[xy]xy
+[.n]
