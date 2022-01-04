@@ -1,0 +1,3 @@
+Levenshtein distance = 75
+code_a = [,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx[.n][<][.c][>][.n][xy]xy{[xy]+x[xy]xy[<][.c][>][.n][>][>][yx]y-[yx]yx[>][>][>]?y}
+code_b = x(+0>)y[,n](+0>)y[yx]xx[,n][y]y{[yx]/y[>][>][>][yx]+y[<][<][<]?x}[yx]*[yx]-[.n]
