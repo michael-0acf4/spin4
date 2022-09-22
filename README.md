@@ -7,9 +7,9 @@ Why not? Someone had to do it.
 # afSpin4 Interpeter
 The current afSpin4 interpeter is definitely not optimised but serves only as a proof of concept.
 ```
-node afspin4 examples/hello-world-ez.txt
-node afspin4 examples/hello-world-ez.txt --debug
-node afspin4 examples/hello-world-ez.txt --debug-step
+node spin4 examples/hello-world-ez.txt
+node spin4 examples/hello-world-ez.txt --debug
+node spin4 examples/hello-world-ez.txt --debug-step
 ```
 
 # Basic overview
