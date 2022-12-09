@@ -2,10 +2,10 @@
 Spin4 is an esoteric programming language based on 4D rotations in order to do computations.
 
 # Why ?
-Why not? Someone had to do it.
+Yes.
 
 # afSpin4 Interpeter
-The current afSpin4 interpeter is definitely not optimised but serves only as a proof of concept.
+The current afSpin4 interpeter is not optimised and serves only as a proof of concept.
 ```
 node spin4 examples/hello-world-ez.txt
 node spin4 examples/hello-world-ez.txt --debug
@@ -62,8 +62,8 @@ For example `(+1>1<01>)` is equivalent to `(+01>)`
         - stack := ... 1 -1 -1 0 -1
 - `[>]`/`[<]` : rotate the stack to the right/left
 - `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack and put the value(s) in the accumulator components/accumulator
-- `[.n]` : prints the top element as a number
-- `[.c]` : prints the top element as a char
+- `[.n]` : print the top element as a number
+- `[.c]` : print the top element as a char
 - `[,n]` : number input (int32)
 - `[,c]` : char input
 - Loop : start = `{` / end = `?t}`, t is either `x` or `y` ie. it checks a single accumulator component and breaks if the value is 0.
