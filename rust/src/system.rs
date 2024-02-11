@@ -3,16 +3,16 @@ use crate::mat::{Mat2x4, Mat4x1, Mat4x4};
 pub struct System {
   /// Encodes the 4D space state
   core: Mat4x4,
-  acc_x: f32,
-  acc_y: f32,
+  acc_x: i32,
+  acc_y: i32,
 }
 
 impl System {
     pub fn new() -> Self {
         Self {
             core: Mat4x4::identity(),
-            acc_x: 0.,
-            acc_y: 0.,
+            acc_x: 0,
+            acc_y: 0,
         }
     }
 
@@ -48,7 +48,7 @@ impl System {
     }
 
     pub fn apply_signature(&mut self, (x, y): (i8, i8), op: char) {
-        let binop = |a: f32, b: f32| -> f32 {
+        let binop = |a: i32, b: i32| -> i32 {
             match op {
                 '+' => a + b,
                 '-' => a - b,
@@ -58,8 +58,8 @@ impl System {
                 _ => a
             }
         };
-        self.acc_x = binop(self.acc_x, x as f32);
-        self.acc_y = binop(self.acc_y, y as f32);
+        self.acc_x = binop(self.acc_x, x as i32);
+        self.acc_y = binop(self.acc_y, y as i32);
     }
 
     pub fn display(&self) {

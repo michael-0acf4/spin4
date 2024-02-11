@@ -6,7 +6,7 @@ use crate::{mat::{rot_plane, Axis}, system::System};
 struct Program {
     source: Vec<u8>,
     system: System,
-    stack: Vec<f32>,
+    stack: Vec<i32>,
     pos: usize
 }
 
