@@ -1,7 +1,9 @@
-use crate::mat::{rotPlane, Axis};
+use spin4::{mat::{rot_plane, Axis}, system::System};
 
-pub mod mat;
 
 fn main() {
-    println!("{:?}", rotPlane(Axis::X, Axis::Y, false).unwrap());
+    let mut system = System::new();
+    system.apply(rot_plane(Axis::X, Axis::Y, false).unwrap());
+    println!("{:?}", system.active_plane_signature());
+    system.display();
 }
