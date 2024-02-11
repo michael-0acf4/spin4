@@ -95,7 +95,7 @@ impl Program {
                             let ascii_index = plane.clone() as usize;
                             let offset = '0' as usize;
                             let (u, v) = PLANE_DEF[ascii_index - offset].clone();
-                            let rot4x4 = rot_plane(u, v, if c == '<' { true } else { false })?;
+                            let rot4x4 = rot_plane(u, v, c == '<')?;
                             self.system.apply(rot4x4);
                             let pair = self.system.active_plane_signature();
                             self.system.apply_signature(pair, op);
