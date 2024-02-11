@@ -1,9 +1,16 @@
-use spin4::{mat::{rot_plane, Axis}, system::System};
+use spin4::program::Program;
 
 
 fn main() {
-    let mut system = System::new();
-    system.apply(rot_plane(Axis::X, Axis::Y, false).unwrap());
-    println!("{:?}", system.active_plane_signature());
-    system.display();
+    let mut program = Program::new();
+    program.load_string("  ( _ 00>1<0>  )");
+    match program.run() {
+        Ok(_) => {
+            program.system.display();
+            // println!("{:?}", );
+        },
+        Err(e) => {
+            println!("{:?}", e);
+        },
+    }
 }

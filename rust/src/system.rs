@@ -2,9 +2,9 @@ use crate::mat::{Mat2x4, Mat4x1, Mat4x4};
 
 pub struct System {
   /// Encodes the 4D space state
-  core: Mat4x4,
-  acc_x: i32,
-  acc_y: i32,
+  pub core: Mat4x4,
+  pub acc_x: i32,
+  pub acc_y: i32,
 }
 
 impl System {
