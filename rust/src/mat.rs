@@ -32,10 +32,10 @@ pub fn rotPlane(u: Axis, v: Axis, reversed: bool) -> Result<Mat4x4> {
         )),
         // Rxw
         (Axis::X, Axis::W)| (Axis::W, Axis::X)  => Ok(Mat4x4::new(
-            1, 0, 0, 0,
-            0, cost, -sint, 0,
-            0, sint, cost, 0,
-            0, 0, 0, 1
+            cost, 0, 0, -sint,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            sint, 0, 0,  cost,
         )),
         // Ryz
         (Axis::Y, Axis::Z)| (Axis::Z, Axis::Y)  =>Ok(Mat4x4::new(
