@@ -63,8 +63,8 @@ impl Program {
         match self.curr() {
             '(' => self.handle_rotation(),
             '{' => self.handle_loop(),
-            '[' => todo!("pop, io"),
-            'x' | 'y' => todo!("push x, y"), 
+            '[' => self.handle_brackets(),
+            'x' | 'y' => self.handle_push(), 
             _ => {
                 self.next();
                 Ok(())
@@ -96,9 +96,7 @@ impl Program {
                             let offset = '0' as usize;
                             let (u, v) = PLANE_DEF[ascii_index - offset].clone();
                             let rot4x4 = rot_plane(u, v, c == '<')?;
-                            self.system.apply(rot4x4);
-                            let pair = self.system.active_plane_signature();
-                            self.system.apply_signature(pair, op);
+                            self.system.apply(rot4x4, op);
                         }
                         planes.clear();
                     },
@@ -118,23 +116,66 @@ impl Program {
     fn handle_loop(&mut self) -> Result<()> {
         let outer_pos = self.pos;
         self.next_char('{')?;
+        println!("ENTERED {}", self.curr());
         self.next_state()?; // ensure nested loop handling
+        println!("THERE? {}", self.curr());
+
         // ?x} or ?y}
         if self.curr() == '?' {
             self.next();
             let stop = match self.curr() {
                 'x' => self.system.acc_x == 0,
                 'y' => self.system.acc_y == 0,
-                other => bail!(format!("expected x or y, got {other} omstead"))
+                other => bail!(format!("expected x or y, got {other} instead"))
             };
+            self.next();
             if !stop {
                 self.jump(outer_pos);
+                return self.handle_loop(); 
             }
         }
         self.next_char('}')?;
         Ok(())
     }
 
+    fn handle_brackets(&mut self) -> Result<()> {
+        self.next_char('[')?;
+
+        let fst = self.next_char_either(&['.', ',', '<', '>', 'x', 'y'])?;
+        match fst {
+            '.' | ',' => {
+                let snd = self.next_char_either(&['n', 'c'])?;
+                self.system.process_io(fst.try_into()?, snd.try_into()?)?;
+            },
+            '<' | '>' => self.system.rotate_stack(fst.try_into()?),
+            'x' | 'y' => {
+                let snd = self.next_char_either(&['x', 'y', ']'])?;
+                match snd {
+                    'x' | 'y' => {
+                        self.system.pop_to(fst.try_into()?);
+                        self.system.pop_to(snd.try_into()?);
+                    },
+                    _ => {
+                        self.system.pop_to(fst.try_into()?);
+                        return Ok(()); // ] is already consumed
+                    }
+                }
+            }
+            impossible => panic!("fatal: token {impossible} unexpected")
+        }
+
+        self.next_char(']')?;
+        Ok(())
+    }
+
+    fn handle_push(&mut self) -> Result<()> {
+        println!("PUSH {}", self.curr());
+        let acc = self.next_char_either(&['x', 'y'])?;
+        self.system.push_from(acc.try_into()?);
+        println!("PUSH {acc}");
+        Ok(())
+    }
+    
     fn is_eof(&self) -> bool {
         self.pos >= self.source.len()
     }
@@ -149,7 +190,6 @@ impl Program {
 
     fn next(&mut self) {
         self.pos += 1;
-        
     }
 
     fn next_char(&mut self, c: char) -> Result<()> {
@@ -158,5 +198,19 @@ impl Program {
         }
         self.next();
         Ok(())
+    }
+
+    fn next_char_either(&mut self, chars: &[char]) -> Result<char> {
+        if !chars.contains(&self.curr()) {
+            let choices = chars
+                .iter()
+                .map(|s| s.to_string())
+                .collect::<Vec<_>>()
+                .join(", ");
+            bail!(format!("{} was expected at pos {}, got {:?} instead", choices, self.pos, self.curr()));
+        }
+        let ret = self.curr();
+        self.next();
+        Ok(ret)
     }
 }

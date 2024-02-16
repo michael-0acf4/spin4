@@ -22,3 +22,20 @@ fn rotation_works() {
          0, 0, 0, 1
     )); 
 }
+
+#[test]
+fn nested_loop() {
+    let mut program = Program::new();
+    program.load_string(r"{
+        {
+            (_0>)
+        ?x}
+    ?y}");
+    program.run().unwrap();
+    assert_eq!(program.system.core, Mat4x4::new(
+         0, 1, 0, 0, 
+        -1, 0, 0, 0, 
+         0, 0, 1, 0, 
+         0, 0, 0, 1
+    )); 
+}
