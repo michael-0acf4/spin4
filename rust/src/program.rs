@@ -1,7 +1,7 @@
 use std::{fs, path::Path};
 use anyhow::{bail, Context, Result};
 use core::fmt::Debug;
-use crate::{mat::{rot_plane, Axis}, system::System};
+use crate::{mat::{rot_plane, Axis}, sys_types::BinOperator, system::System};
 
 pub struct Program {
     source: Vec<char>,
@@ -53,27 +53,49 @@ impl Program {
     }
 
     pub fn run(&mut self) -> Result<()> {
+        let mut loop_stack = vec![];
         while !self.is_eof() {
-            self.next_state()?;
+            match self.curr() {
+                '(' => self.handle_rotation()?,
+                '[' => self.handle_brackets()?,
+                'x' | 'y' => self.handle_push()?, 
+                '+' | '-' | '*' | '/' => self.handle_acc_binop(self.curr().try_into()?)?,
+                '{' => {
+                    self.next_char('{')?;
+                    let loop_start = self.pos;
+                    loop_stack.push(loop_start);
+                    println!("ADD LOOP {}", self.curr());
+                },
+                '?' => {
+                    self.next_char('?')?;
+                    let stop = match self.curr() {
+                        'x' => self.system.acc_x == 0,
+                        'y' => self.system.acc_y == 0,
+                        other => bail!(format!("expected x or y, got {other} instead"))
+                    };
+                    // ?x} or ?y}
+                    if stop {
+                        self.next_char_either(&['x', 'y'])?;
+                        self.next_char('}')?;
+                        loop_stack.pop();
+                    } else {
+                        println!("cant stop with {} or {}", self.system.acc_x, self.system.acc_y);
+                        match loop_stack.last() {
+                            Some(pos) => self.jump(pos.to_owned()),
+                            None => bail!("invalid loop ending at position {} {}", self.pos, self.curr()),
+                        }
+                    }
+                }
+                _ => self.next()
+            }
         }
         Ok(())
     }
 
-    fn next_state(&mut self) -> Result<()> {
-        match self.curr() {
-            '(' => self.handle_rotation(),
-            '{' => self.handle_loop(),
-            '[' => self.handle_brackets(),
-            'x' | 'y' => self.handle_push(), 
-            _ => {
-                self.next();
-                Ok(())
-            }
-        }
-    }
 
     fn handle_rotation(&mut self) -> Result<()> {
         self.next_char('(')?;
+        println!("START ROT");
 
         let op = self.curr();
         self.next();
@@ -96,7 +118,7 @@ impl Program {
                             let offset = '0' as usize;
                             let (u, v) = PLANE_DEF[ascii_index - offset].clone();
                             let rot4x4 = rot_plane(u, v, c == '<')?;
-                            self.system.apply(rot4x4, op);
+                            self.system.apply(rot4x4, op.try_into()?)?;
                         }
                         planes.clear();
                     },
@@ -110,34 +132,16 @@ impl Program {
         }
 
         self.next_char(')')?;
+        println!("END ROT");
         Ok(())
     }
 
-    fn handle_loop(&mut self) -> Result<()> {
-        let outer_pos = self.pos;
-        self.next_char('{')?;
-        println!("ENTERED {}", self.curr());
-        self.next_state()?; // ensure nested loop handling
-        println!("THERE? {}", self.curr());
-
-        // ?x} or ?y}
-        if self.curr() == '?' {
-            self.next();
-            let stop = match self.curr() {
-                'x' => self.system.acc_x == 0,
-                'y' => self.system.acc_y == 0,
-                other => bail!(format!("expected x or y, got {other} instead"))
-            };
-            self.next();
-            if !stop {
-                self.jump(outer_pos);
-                return self.handle_loop(); 
-            }
-        }
-        self.next_char('}')?;
-        Ok(())
-    }
-
+    /// `[>]`/`[<]` : rotate the stack to the right/left\
+    /// `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack and put the value(s) in the corresponding accumulator\
+    /// `[.n]` : print the top stack value as a number\
+    /// `[.c]` : print the top stack value as a char\
+    /// `[,n]` : number input (int32)\
+    /// `[,c]` : char input\
     fn handle_brackets(&mut self) -> Result<()> {
         self.next_char('[')?;
 
@@ -172,10 +176,15 @@ impl Program {
         println!("PUSH {}", self.curr());
         let acc = self.next_char_either(&['x', 'y'])?;
         self.system.push_from(acc.try_into()?);
-        println!("PUSH {acc}");
         Ok(())
     }
-    
+
+    fn handle_acc_binop(&mut self, op: BinOperator) -> Result<()> {
+        self.next(); // consume op
+        self.system.push_acc_op(op)?;
+        Ok(())
+    }
+
     fn is_eof(&self) -> bool {
         self.pos >= self.source.len()
     }

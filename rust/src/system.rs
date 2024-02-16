@@ -1,5 +1,5 @@
 use crate::mat::{Mat2x4, Mat4x1, Mat4x4};
-use crate::sys_types::{InOut, InOutType, PointerDir, Reg, Stack};
+use crate::sys_types::{BinOperator, InOut, InOutType, PointerDir, Reg, Stack};
 use anyhow::Result;
 use std::io::{self, Read};
 
@@ -25,10 +25,11 @@ impl System {
     }
 
     /// Update the core tensor `Core <- Rot * Core` and apply the 
-    pub fn apply(&mut self, rot: Mat4x4, op: char) {
+    pub fn apply(&mut self, rot: Mat4x4, op: BinOperator) -> Result<()> {
         self.core = rot * self.core;
         let pair = self.active_plane_signature();
-        self.apply_signature(pair, op);
+        self.apply_signature(pair, &op)?;
+        Ok(())
     }
 
     /// Determine each register's `increment signature`
@@ -57,19 +58,16 @@ impl System {
         (ret[0], ret[1]) 
     }
 
-    fn apply_signature(&mut self, (x, y): (i8, i8), op: char) {
-        let binop = |a: i32, b: i32| -> i32 {
-            match op {
-                '+' => a + b,
-                '-' => a - b,
-                '*' => a * b,
-                '/' => a / b,
-                '_' => a,
-                _ => a
-            }
-        };
-        self.acc_x = binop(self.acc_x, x as i32);
-        self.acc_y = binop(self.acc_y, y as i32);
+    fn apply_signature(&mut self, (x, y): (i8, i8), op: &BinOperator) -> Result<()> {
+        self.acc_x = op.compute(self.acc_x, x as i32)?;
+        self.acc_y = op.compute(self.acc_y, y as i32)?;
+        Ok(())
+    }
+
+    pub fn push_acc_op(&mut self, op: BinOperator) -> Result<()> {
+        let value = op.compute(self.acc_x, self.acc_y)?;
+        self.stack.items.push(value);
+        Ok(())
     }
 
     pub fn push_from(&mut self, reg: Reg) {
