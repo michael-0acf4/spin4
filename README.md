@@ -137,4 +137,4 @@ The accumulator vector then becomes [-1, 1]
     The `x` in the expression `(-01>3<)x` extracts the `x` component of the accumulator and store it in the stack.
 
 # Links
-* [https://esolangs.org/wiki/Spin4](Spin4)
+* [Spin4 Wiki](https://esolangs.org/wiki/Spin4)
