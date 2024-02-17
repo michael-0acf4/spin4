@@ -71,7 +71,7 @@ In 4D, we can form a total of 6 planes from the base vectors, a plane of rotatio
 $$T_{t} \leftarrow R_{Index, Dir} T_{t-1}$$
 
 $$
-    ( Acc_X \space Acc_Y )_{t+1} \leftarrow
+    ( Acc_X \space Acc_Y ) \leftarrow
     T_{t}
     \begin{pmatrix}1 \\\ 1 \\\ 1 \\\ 1\end{pmatrix}
 $$
