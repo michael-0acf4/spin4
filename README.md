@@ -95,7 +95,7 @@ In 4D, we can form a total of 6 planes from the base vectors, a plane of rotatio
 
     $$T_{t+1} \leftarrow R_{Index, Dir} T_{t}$$
 
-    $$(Acc_X \space Acc_Y) \leftarrow \begin{pmatrix}1 & 0 & 0 & 0\\ 0 & 1 & 0 & 0\end{pmatrix} T_{t+1} \begin{pmatrix}1 \\ 1 \\ 1 \\ 1\end{pmatrix}$$
+    $$(Acc_X \space Acc_Y) \leftarrow \begin{pmatrix}1 & 0 & 0 & 0\\\ 0 & 1 & 0 & 0\end{pmatrix} T_{t+1} \begin{pmatrix}1 \\\ 1 \\\ 1 \\\ 1\end{pmatrix}$$
 
 ## More examples..
 - Example 1 : The `no op` operator `_`
