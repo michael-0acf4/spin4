@@ -93,8 +93,9 @@ In 4D, we can form a total of 6 planes from the base vectors, a plane of rotatio
 
     A nice trick is to notice that a $\pm \pi / 2$ rotation applied on the identity matrix or a signed permutation of its columns will always result on a [generalized permutation matrix](https://en.wikipedia.org/wiki/Generalized_permutation_matrix) whose non-zero entries are `-1`, `1`, we can simply extract the relevant entries with some algebra.
 
-    $$ T_{t+1} \leftarrow R_{\#Index, Dir} T_{t} $$
-    $$ (Acc_X \space Acc_Y) \leftarrow \begin{pmatrix}1 & 0 & 0 & 0\\\ 0 & 1 & 0 & 0\end{pmatrix} T_{t+1} \begin{pmatrix}1 \\\ 1 \\\ 1 \\\ 1\end{pmatrix}$$
+    $$T_{t+1} \leftarrow R_{\#Index, Dir} T_{t}$$
+
+    $$(Acc_X \space Acc_Y) \leftarrow \begin{pmatrix}1 & 0 & 0 & 0\\\ 0 & 1 & 0 & 0\end{pmatrix} T_{t+1} \begin{pmatrix}1 \\\ 1 \\\ 1 \\\ 1\end{pmatrix}$$
 
 ## More examples..
 - Example 1 : The `no op` operator `_`
