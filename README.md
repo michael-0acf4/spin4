@@ -4,7 +4,7 @@ spin4 is an esoteric programming language that uses 4D rotations for computation
 # Why ?
 Yes.
 
-# spin4 Interpeter
+# spin4 interpeter
 The current spin4 interpeter is not optimised and serves only as a proof of concept.
 ```
 Usage: spin4 [OPTIONS] --file <FILE>
@@ -41,7 +41,7 @@ As a tradition, here is the Fibonacci sequence in spin4. This program takes a po
 ```
 [,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx[.n][<][.c][>][.n][xy]xy{[xy]+x[xy]xy[<][.c][>][.n][>][>][yx]y-[yx]yx[>][>][>]?y}
 ```
-# Main concept
+# Concepts
 ## Rotation  `>` $\pi/2$ or `<` $-\pi/2$
 In 4D, we can form a total of 6 planes from the base vectors, a plane of rotation is the equivalent concept to the center of rotation in 2D i.e. there is always an invariant plane under a 4D rotation.
 - xy as `0` (xy-plane is invariant)
@@ -73,7 +73,7 @@ $$
 $$
 
 
-# Main instructions
+## Instructions
 - Arithmetic operators `+`, `-`, `/`, `*`, `_` (no op).
 - Rotation sequence `(Op Seq)`
     - `Op` can be any of the above binary operator

@@ -1,7 +1,7 @@
 use crate::mat::{Mat2x4, Mat4x1, Mat4x4};
 use crate::sys_types::{BinOperator, InOut, InOutType, PointerDir, Reg, Stack};
 use anyhow::Result;
-use std::io::{self, Read};
+use std::io::{self, Read, Write};
 
 pub struct System {
   /// Encodes the 4D space state
@@ -101,6 +101,8 @@ impl System {
     pub fn process_io(&mut self, interf: InOut, tpe: InOutType) -> Result<()> {
         match interf {
             InOut::Stdin => {
+                print!("> ");
+                std::io::stdout().flush().ok();
                 let value = match tpe {
                     InOutType::Char => {
                         let mut buffer = [0 as u8; 1];
