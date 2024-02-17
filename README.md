@@ -1,5 +1,5 @@
 # Spin4
-Spin4 is an esoteric programming language based on 4D rotations in order to do computations.
+Spin4 is an esoteric programming language that uses 4D rotations for computations.
 
 # Why ?
 Yes.
@@ -7,72 +7,43 @@ Yes.
 # afSpin4 Interpeter
 The current afSpin4 interpeter is not optimised and serves only as a proof of concept.
 ```
-node spin4 examples/hello-world-ez.txt
-node spin4 examples/hello-world-ez.txt --debug
-node spin4 examples/hello-world-ez.txt --debug-step
+Usage: spin4 [OPTIONS] --file <FILE>
+
+Options:
+  -f, --file <FILE>  
+  -d, --debug        
+  -h, --help         Print help
+  -V, --version      Print version
 ```
 
 # Basic overview
-- An accumulator vector with 2 components : register X and Y
-    - We accumulate values along the way by doing addition, substraction, multiplication or integer division
-    - We can operate on both components X, Y
+Ultimately, a Spin4 program has
+- An accumulator vector with 2 components: register X and Y
+    - We accumulate values as we perform *rotations* by doing addition, substraction, multiplication or integer division
+    - We can operate on its component X, 
     - The value of the stack is incremented/decremented as we rotate in the 4D-space
-- A single stack
-    - We can push the value of the accumulator one component at a time ie. push the value of X or Y
-    - We can push directly with the standard input (interpreted as a number)
-    - It can be rotated (left / right)
-    - We can pop the top element
-    - We can display the top element as a number or as an ASCII character.
+- A single stack:
+    - We can push the value of the accumulator one component at a time i.e. push the value of X or Y
+    - We can perform a push with the standard input
+    - It can be rotated left or right
+    - We can pop the top element to one of the registers
+    - We can display the top element
 
 # Examples
 ## Hello World
 Hello World program in Spin4
 ```
-{(+1>)x?y}(+0000>)*[<][<][y]y[>][>][x]x*[>][>][y]y[<][<][x]+[x]+[.c]
-[x]x+[x]+[x]+[x]+[<][yx]y[>]-(+1054<5401>012111<)x(+0>)x[.c][<][<][<]
-[<][yx]xy[>][>][>][>]+[xy]y+[.c][.c][x]x[<][<][<][y]y[>][>][>]+[.c][x]
-x+[>][>][x]x[<][y]x[<][<][<][<][<][<][.c][<][<][.c]y[.c][y][xy][yx][xy]
-[y][.c][xy][.c][yx][.c]
+{(+1>)x?y}(+0000>)*[<][<][y]y[>][>][x]x*[>][>][y]y[<][<][x]+[x]+[.c][x]x+[x]+[x]+[x]+[<][yx]y[>]-(+1054<5401>012111<)x(+0>)x[.c][<][<][<][<][yx]xy[>][>][>][>]+[xy]y+[.c][.c][x]x[<][<][<][y]y[>][>][>]+[.c][x]x+[>][>][x]x[<][y]x[<][<][<][<][<][<][.c][<][<][.c]y[.c][y][xy][yx][xy][y][.c][xy][.c][yx][.c]
 ```
+
 ## Fibonacci sequence
 As a tradition, here is the Fibonacci sequence in Spin4. This program takes a positive integer n as an input (stdin) and then prints a list of the n first Fibonacci numbers.
 ```
-[,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx[.n][<][.c][>][.n][xy]xy
-{[xy]+x[xy]xy[<][.c][>][.n][>][>][yx]y-[yx]yx[>][>][>]?y}
+[,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx[.n][<][.c][>][.n][xy]xy{[xy]+x[xy]xy[<][.c][>][.n][>][>][yx]y-[yx]yx[>][>][>]?y}
 ```
-
-# Main instructions
-- Arithmetic operators `+`, `-`, `/`, `*`, `_` : add, sub, mult, int div, do nothing.
-- Rotation sequence `(ab)`
-    - `a` can be any of the above arithmetic operators
-    - `b` is a sequence of ordered rotation\
-For example `(+1>1<01>)` is equivalent to `(+01>)`
-
-- `x` or `y` : push a specific component of the accumulator to the stack.\
-    Examples :
-    - `(+03<5>)x` => push -1 to the stack, accumulator vector is `[-1, 1]`
-        - stack := ... -1
-    - `(+03<5>)yx` => push 1 then -1 to the stack, accumulator vector is `[-1, 1]`
-        - stack := ... 1 -1
-    - `(+03<5>)*` => push -1 ie. `x=-1 * y=1` to the stack, accumulator vector is `[-1, 1]`
-        - stack := ... -1
-    - `(+03<5>)x+y` => push -1 then 0 then 1, accumulator vector is `[-1, 1]`
-        - stack := ... -1 0 1
-    - `(+03<5>)yx/+x` => push 1, -1, -1, 0, then -1, accumulator vector is `[-1, 1]`
-        - stack := ... 1 -1 -1 0 -1
-- `[>]`/`[<]` : rotate the stack to the right/left
-- `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack and put the value(s) in the accumulator components/accumulator
-- `[.n]` : print the top element as a number
-- `[.c]` : print the top element as a char
-- `[,n]` : number input (int32)
-- `[,c]` : char input
-- Loop : start = `{` / end = `?t}`, t is either `x` or `y` ie. it checks a single accumulator component and breaks if the value is 0.
-    Example :
-    - `{(+50>)?x}y` stops as soon as the accumulator x component is 0 then pushes y component value to the stack
-
 # Main concept
-## Rotation 90deg `>` or -90deg `<`
-In 4D, we can form a total of 6 planes from the base vectors, a plane of rotation is the equivalent concept to the center of rotation in 2D ie. there is always an invariant plane under a 4D rotation.
+## Rotation  `>` $\pi/2$ or `<` $-\pi/2$
+In 4D, we can form a total of 6 planes from the base vectors, a plane of rotation is the equivalent concept to the center of rotation in 2D i.e. there is always an invariant plane under a 4D rotation.
 - xy as `0` (xy-plane is invariant)
 - xz as `1` (xz-plane is invariant)
 - xw as `2` (xw-plane is invariant)
@@ -82,43 +53,80 @@ In 4D, we can form a total of 6 planes from the base vectors, a plane of rotatio
 
 * We start a rotation or a sequence of rotations with the syntax `(main_operator seq_of_rotation)`
 * What happens to the accumulator after a rotation ?
-    - The accumulator vector state is changed : X, Y increments/decrements
+    - The accumulator vector state is changed: X and Y increment/decrement
     - The system becomes oriented in some way
     - Conceptually speaking, in order to compute the next state of the accumulator vector,
-    Spin4 takes the two only base vectors which generate the same plane as `[1, 0, 0, 0]` and `[0, 1, 0, 0]`
-    Say for example that we have `[-1, 0, 0, 0]` and `[0, 1, 0, 0]` in the system matrix, the orientation signature becomes `[-1, 1]`, we can then compute the next accumulator state `current_acc + [-1, 1]`\
+    Spin4 takes the two only base vectors which generate the same plane as $\vec{u} = (1 \space 0  \space 0  \space 0)^T$ and $\vec{v} = (0 \space 1 \space 0 \space 0)^T$.
+    Suppose for example that we have the columns $(0 \space -1 \space 0 \space 0)^T$ and $(1 \space 0 \space 0 \space 0)^T$ in the system matrix, the orientation signature becomes `[-1, 1]`, we can then compute the next accumulator state `current_acc + [-1, 1]`.
 
-- Case 1 : The `do nothing` operator `_`\
-Example : 
+    The easiest implementation for computing the signature is to iterate through each column pair combination $(\vec{u}', \vec{v}')$ that satisfies the projections $\vec{u}.\vec{v}'=0$ and $\vec{u}'.\vec{v}=0$, which basically guarantees that the generated plane is congruent to the initial.
+
+    A nice trick is to notice that a $\pm \pi / 2$ rotation applied on the identity matrix or a signed permutation of its columns will always result on a [generalized permutation matrix](https://en.wikipedia.org/wiki/Generalized_permutation_matrix) whose non-zero entries are `-1`, `1`, we can simply extract the relevant entries with some algebra.
+
+$$T_{t+1} \leftarrow R_{Index, Dir} T_{t}$$
+
+$$
+    (Acc_X \space Acc_Y) \leftarrow 
+    \begin{pmatrix}1 & 0 & 0 & 0 \\\ 0 & 1 & 0 & 0\end{pmatrix}
+    T_{t+1}
+    \begin{pmatrix}1 \\\ 1 \\\ 1 \\\ 1\end{pmatrix}
+$$
+
+
+# Main instructions
+- Arithmetic operators `+`, `-`, `/`, `*`, `_` (no op).
+- Rotation sequence `(Op Seq)`
+    - `Op` can be any of the above binary operator
+    - `Seq` is a sequence of ordered rotation\
+For example `(+1>1<01>)` is equivalent to `(+01>)`
+
+- `x` or `y` : push a specific component of the accumulator to the stack.\
+    Examples :
+    - `(+03<5>)x` => push -1 to the stack, accumulator `[-1, 1]`
+        - stack := ... -1
+    - `(+03<5>)yx` => push 1 then -1 to the stack, accumulator `[-1, 1]`
+        - stack := ... 1 -1
+    - `(+03<5>)*` => push -1 (or x=-1 * y=1) to the stack, accumulator `[-1, 1]`
+        - stack := ... -1
+    - `(+03<5>)x+y` => push -1 then 0 then 1, accumulator vector is `[-1, 1]`
+        - stack := ... -1 0 1
+    - `(+03<5>)yx/+x` => push 1, -1, -1, 0, then -1, accumulator `[-1, 1]`
+        - stack := ... 1 -1 -1 0 -1
+- `[>]`/`[<]` : rotate the stack right/left
+- `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack then put the value(s) in the corresponding accumulator component in order
+- `[.n]` : print the top element as a number
+- `[.c]` : print the top element as a char
+- `[,n]` : number input (int32)
+- `[,c]` : char input
+- Loop : start = `{` / end = `?t}`, t is either `x` or `y` i.e. it checks a single accumulator component and breaks if the value is 0.
+    
+    Example :
+    - `{(+50>)?x}y` stops as soon as the accumulator x component is 0 then pushes y component value to the stack
+
+
+## More examples..
+- Example 1 : The `no op` operator `_`
+
     In some case, we just want to do a sequence of rotation and do nothing along the way.
-    In the expression `(_03>5<)`, the accumulator vector remains [0, 0]
+    In the expression `(_03>5<)`, the accumulator vector remains `[0, 0]`.
 
-- Case 2 : Doing addition/substraction/... as we are rotating\
-Example : `(+03<5>)`
-    - Rotate 0 (90deg), add according to the orientation of the congruent plane to the initial xy
+- Example 2 : Doing addition/substraction/... as we are rotating.
+    
+    Consider the following program `(+03<5>)`
+    - Rotate 0 (90deg), perform addition according to the orientation of the congruent plane to the initial xy
         - acc = [0, 0] `+` [+1, +1] = [1, 1]
-    - Rotate 3 (90deg), add according to the orientation of the congruent plane to the initial xy
+    - Rotate 3 (90deg), perform addition according to the orientation of the congruent plane to the initial xy
         - acc = [1, 1] `+` [-1, +1] = [0, 2]
-    - Rotate 5 (-90deg), add according to the orientation of the congruent plane to the initial xy
+    - Rotate 5 (-90deg), perform addition according to the orientation of the congruent plane to the initial xy
         - acc = [0, 2] `+` [-1, -1] = [-1, 1]
 The accumulator vector then becomes [-1, 1]
 
-## Exercises
-1. What is the state of the accumulator after `(-01>3<)` or `(-0>1>3<)` ?\
-    - acc = [0, 0] `-` [+1, +1] = [1, 1]
-    - acc = [1, 1] `-` [+1, -1] = [0, 2]
-    - acc = [0, 2] `-` [+1, -1] = [-1, 1]
-2. Does something like `(+01>(-11<))` make sense in Spin4 ?\
-=> No because in the rotation sequence syntax `(ab)`, `a` is an arithmetic operator and `b` is a sequence of rotation.  
+- Example 3 :
 
-## Basics on the accumulator vector
-Example 1 :\
-Let acc = [2, 4]\
-The `+` in the code `... + ...` computes 2 + 4, the result is stored in the stack\
+    Let `acc = [2, 4]`
 
-Example 2:\
-The `x` in the expression `(-01>3<)x` extracts the `x` component of the accumulator and store it in the stack\
-- We can pull values from the stack and put them in the accumulator
-    - `[x]` or `[y]` : pop the stack and put the value in the register and overwrites the value of the corresponding component
-    - `[yx]` : pop the stack, put the first value in y, pop the stack, put the value in x
-    - `[xy]` : same as above but in the reverse order
+    The `+` in a program `.. + ..` computes 2 + 4, the result is stored in the stack.
+
+- Example 4:
+
+    The `x` in the expression `(-01>3<)x` extracts the `x` component of the accumulator and store it in the stack.
