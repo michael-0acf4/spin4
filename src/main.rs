@@ -40,7 +40,7 @@ fn main() {
             }
         },
         None => {
-            println!("Welcome to Spin4 interactive mode");
+            println!(r#"Welcome to spin4 interactive mode, type "clear" to reset."#);
             let mut program = Program::new();
             loop {
                 let text = load_program();
