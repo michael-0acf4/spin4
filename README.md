@@ -41,36 +41,6 @@ As a tradition, here is the Fibonacci sequence in Spin4. This program takes a po
 ```
 [,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx[.n][<][.c][>][.n][xy]xy{[xy]+x[xy]xy[<][.c][>][.n][>][>][yx]y-[yx]yx[>][>][>]?y}
 ```
-
-# Main instructions
-- Arithmetic operators `+`, `-`, `/`, `*`, `_` (no op).
-- Rotation sequence `(Op Seq)`
-    - `Op` can be any of the above binary operator
-    - `Seq` is a sequence of ordered rotation\
-For example `(+1>1<01>)` is equivalent to `(+01>)`
-
-- `x` or `y` : push a specific component of the accumulator to the stack.\
-    Examples :
-    - `(+03<5>)x` => push -1 to the stack, accumulator `[-1, 1]`
-        - stack := ... -1
-    - `(+03<5>)yx` => push 1 then -1 to the stack, accumulator `[-1, 1]`
-        - stack := ... 1 -1
-    - `(+03<5>)*` => push -1 (or x=-1 * y=1) to the stack, accumulator `[-1, 1]`
-        - stack := ... -1
-    - `(+03<5>)x+y` => push -1 then 0 then 1, accumulator vector is `[-1, 1]`
-        - stack := ... -1 0 1
-    - `(+03<5>)yx/+x` => push 1, -1, -1, 0, then -1, accumulator `[-1, 1]`
-        - stack := ... 1 -1 -1 0 -1
-- `[>]`/`[<]` : rotate the stack right/left
-- `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack then put the value(s) in the corresponding accumulator component in order
-- `[.n]` : print the top element as a number
-- `[.c]` : print the top element as a char
-- `[,n]` : number input (int32)
-- `[,c]` : char input
-- Loop : start = `{` / end = `?t}`, t is either `x` or `y` i.e. it checks a single accumulator component and breaks if the value is 0.
-    Example :
-    - `{(+50>)?x}y` stops as soon as the accumulator x component is 0 then pushes y component value to the stack
-
 # Main concept
 ## Rotation  `>` $\pi/2$ or `<` $-\pi/2$
 In 4D, we can form a total of 6 planes from the base vectors, a plane of rotation is the equivalent concept to the center of rotation in 2D i.e. there is always an invariant plane under a 4D rotation.
@@ -101,6 +71,38 @@ $$
     T_{t+1}
     \begin{pmatrix}1 \\\ 1 \\\ 1 \\\ 1\end{pmatrix}
 $$
+
+
+# Main instructions
+- Arithmetic operators `+`, `-`, `/`, `*`, `_` (no op).
+- Rotation sequence `(Op Seq)`
+    - `Op` can be any of the above binary operator
+    - `Seq` is a sequence of ordered rotation\
+For example `(+1>1<01>)` is equivalent to `(+01>)`
+
+- `x` or `y` : push a specific component of the accumulator to the stack.\
+    Examples :
+    - `(+03<5>)x` => push -1 to the stack, accumulator `[-1, 1]`
+        - stack := ... -1
+    - `(+03<5>)yx` => push 1 then -1 to the stack, accumulator `[-1, 1]`
+        - stack := ... 1 -1
+    - `(+03<5>)*` => push -1 (or x=-1 * y=1) to the stack, accumulator `[-1, 1]`
+        - stack := ... -1
+    - `(+03<5>)x+y` => push -1 then 0 then 1, accumulator vector is `[-1, 1]`
+        - stack := ... -1 0 1
+    - `(+03<5>)yx/+x` => push 1, -1, -1, 0, then -1, accumulator `[-1, 1]`
+        - stack := ... 1 -1 -1 0 -1
+- `[>]`/`[<]` : rotate the stack right/left
+- `[x]`, `[y]`, `[xy]` or `[yx]` : pop the stack then put the value(s) in the corresponding accumulator component in order
+- `[.n]` : print the top element as a number
+- `[.c]` : print the top element as a char
+- `[,n]` : number input (int32)
+- `[,c]` : char input
+- Loop : start = `{` / end = `?t}`, t is either `x` or `y` i.e. it checks a single accumulator component and breaks if the value is 0.
+    
+    Example :
+    - `{(+50>)?x}y` stops as soon as the accumulator x component is 0 then pushes y component value to the stack
+
 
 ## More examples..
 - Example 1 : The `no op` operator `_`
