@@ -72,7 +72,7 @@ $$T_{t} \leftarrow R_{Index, Dir} T_{t-1}$$
 
 $$
     (Acc_X \space Acc_Y)_{t+1} \leftarrow
-    (Acc_X \space Acc_Y)_{t} \begin{pmatrix}1 & 0 & 0 & 0 \\\ 0 & 1 & 0 & 0\end{pmatrix}
+    \begin{pmatrix}1 & 0 & 0 & 0 \\\ 0 & 1 & 0 & 0\end{pmatrix}
     T_{t}
     \begin{pmatrix}1 \\\ 1 \\\ 1 \\\ 1\end{pmatrix}
 $$
