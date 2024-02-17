@@ -6,6 +6,11 @@ Yes.
 
 # spin4 interpeter
 The current spin4 interpeter is not optimised and serves only as a proof of concept.
+Installation
+```
+cargo install spin4
+```
+
 ```
 Usage: spin4 [OPTIONS] --file <FILE>
 

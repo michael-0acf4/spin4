@@ -1,6 +1,6 @@
 [package]
 name = "spin4"
-version = "0.0.1"
+version = "0.0.2"
 license = "MIT"
 description = "spin4 is an esoteric programming language that uses 4D rotations for computations."
 edition = "2021"
