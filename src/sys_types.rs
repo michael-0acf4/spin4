@@ -15,7 +15,7 @@ impl TryFrom<char> for Reg {
     }
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Debug)]
 pub enum PointerDir {
     Left, Right
 }
@@ -62,6 +62,7 @@ impl TryFrom<char> for InOutType {
 }
 
 
+#[derive(PartialEq, Debug)]
 pub struct Stack {
     pub dir: PointerDir,
     pub items: Vec<i32>

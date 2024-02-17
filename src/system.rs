@@ -8,7 +8,7 @@ pub struct System {
   pub core: Mat4x4,
   pub acc_x: i32,
   pub acc_y: i32,
-  stack: Stack
+  pub stack: Stack
 }
 
 impl System {
@@ -24,9 +24,9 @@ impl System {
         }
     }
 
-    /// Update the core tensor `Core <- Rot * Core` and apply the 
+    /// Update the core tensor `Core <- Rot * Core` and the accumulator registers
     pub fn apply(&mut self, rot: Mat4x4, op: BinOperator) -> Result<()> {
-        self.core = rot * self.core;
+        self.core = rot.clone() * self.core;
         let pair = self.active_plane_signature();
         self.apply_signature(pair, &op)?;
         Ok(())
@@ -92,11 +92,10 @@ impl System {
     }
 
     pub fn rotate_stack(&mut self, dir: PointerDir) {
-        if dir == self.stack.dir {
-            return;
+        match dir {
+            PointerDir::Left => self.stack.items.rotate_left(1),
+            PointerDir::Right => self.stack.items.rotate_right(1),
         }
-        self.stack.dir = dir;
-        self.stack.items.reverse();
     }
 
     pub fn process_io(&mut self, interf: InOut, tpe: InOutType) -> Result<()> {
@@ -134,6 +133,10 @@ impl System {
     }
 
     pub fn display(&self) {
+        println!();
+        println!("Final stack {:?}", self.stack.items);
+        println!("Final acc {:?}", &[self.acc_x, self.acc_y]);
+        println!("Core tensor");
         for (i, item) in self.core.transpose().iter().enumerate() {
             print!("{}", if i % 4 == 0 && i != 0 { '\n' } else { ' ' });
             print!("{}", if item >= &0 { format!( " {item}") } else { item.to_string() });

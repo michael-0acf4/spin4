@@ -7,7 +7,6 @@ pub struct Program {
     source: Vec<char>,
     pos: usize,
     pub system: System,
-    pub stack: Vec<i32>,
 }
 
 static PLANE_DEF: &[(Axis, Axis); 6] = &[
@@ -30,14 +29,12 @@ impl Program {
         Self { 
             source: vec![],
             system: System::new(),
-            stack: vec![],
             pos: 0
         }
     }
 
     pub fn reset(&mut self) {
         self.system = System::new();
-        self.stack = vec![];
         self.pos = 0;
     }
 
@@ -64,8 +61,8 @@ impl Program {
                     self.next_char('{')?;
                     let loop_start = self.pos;
                     loop_stack.push(loop_start);
-                    println!("ADD LOOP {}", self.curr());
                 },
+                '"' => self.handle_comment()?,
                 '?' => {
                     self.next_char('?')?;
                     let stop = match self.curr() {
@@ -79,7 +76,6 @@ impl Program {
                         self.next_char('}')?;
                         loop_stack.pop();
                     } else {
-                        println!("cant stop with {} or {}", self.system.acc_x, self.system.acc_y);
                         match loop_stack.last() {
                             Some(pos) => self.jump(pos.to_owned()),
                             None => bail!("invalid loop ending at position {} {}", self.pos, self.curr()),
@@ -95,7 +91,6 @@ impl Program {
 
     fn handle_rotation(&mut self) -> Result<()> {
         self.next_char('(')?;
-        println!("START ROT");
 
         let op = self.curr();
         self.next();
@@ -117,7 +112,7 @@ impl Program {
                             let ascii_index = plane.clone() as usize;
                             let offset = '0' as usize;
                             let (u, v) = PLANE_DEF[ascii_index - offset].clone();
-                            let rot4x4 = rot_plane(u, v, c == '<')?;
+                            let rot4x4 = rot_plane(u, v, c.try_into()?)?;
                             self.system.apply(rot4x4, op.try_into()?)?;
                         }
                         planes.clear();
@@ -132,7 +127,6 @@ impl Program {
         }
 
         self.next_char(')')?;
-        println!("END ROT");
         Ok(())
     }
 
@@ -173,7 +167,6 @@ impl Program {
     }
 
     fn handle_push(&mut self) -> Result<()> {
-        println!("PUSH {}", self.curr());
         let acc = self.next_char_either(&['x', 'y'])?;
         self.system.push_from(acc.try_into()?);
         Ok(())
@@ -182,6 +175,15 @@ impl Program {
     fn handle_acc_binop(&mut self, op: BinOperator) -> Result<()> {
         self.next(); // consume op
         self.system.push_acc_op(op)?;
+        Ok(())
+    }
+
+    fn handle_comment(&mut self) -> Result<()> {
+        self.next_char('"')?;
+        while self.curr() != '"' {
+            self.next();
+        }
+        self.next_char('"')?;
         Ok(())
     }
 
