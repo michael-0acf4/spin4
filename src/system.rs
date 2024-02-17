@@ -133,7 +133,6 @@ impl System {
     }
 
     pub fn display(&self) {
-        println!();
         println!("Final stack {:?}", self.stack.items);
         println!("Final acc {:?}", &[self.acc_x, self.acc_y]);
         println!("Core tensor");

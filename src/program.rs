@@ -33,19 +33,15 @@ impl Program {
         }
     }
 
-    pub fn reset(&mut self) {
-        self.system = System::new();
-        self.pos = 0;
-    }
-
     pub fn load_string(&mut self, s: &str) {
         self.source = strip_source(s);
+        self.pos = 0;
     }
 
     pub fn load_file<P: AsRef<Path> + Debug + Clone>(&mut self, path: P) -> Result<()> {
         let raw_source = fs::read_to_string(path.clone())
             .with_context(|| format!("loading file {:?}", path))?;
-        self.source = strip_source(&raw_source);
+        self.load_string(&raw_source);
         Ok(())
     }
 
@@ -78,11 +74,11 @@ impl Program {
                     } else {
                         match loop_stack.last() {
                             Some(pos) => self.jump(pos.to_owned()),
-                            None => bail!("invalid loop ending at position {} {}", self.pos, self.curr()),
+                            None => bail!("invalid loop ending at position {}", self.pos),
                         }
                     }
                 }
-                _ => self.next()
+                _ => bail!("invalid token {:?} at position {}", self.curr(), self.pos)
             }
         }
         Ok(())
