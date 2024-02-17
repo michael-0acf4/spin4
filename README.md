@@ -1,11 +1,11 @@
-# Spin4
-Spin4 is an esoteric programming language that uses 4D rotations for computations.
+# spin4
+spin4 is an esoteric programming language that uses 4D rotations for computations.
 
 # Why ?
 Yes.
 
-# afSpin4 Interpeter
-The current afSpin4 interpeter is not optimised and serves only as a proof of concept.
+# spin4 Interpeter
+The current spin4 interpeter is not optimised and serves only as a proof of concept.
 ```
 Usage: spin4 [OPTIONS] --file <FILE>
 
@@ -17,7 +17,7 @@ Options:
 ```
 
 # Basic overview
-Ultimately, a Spin4 program has
+Ultimately, a spin4 program has
 - An accumulator vector with 2 components: register X and Y
     - We accumulate values as we perform *rotations* by doing addition, substraction, multiplication or integer division
     - We can operate on its component X, 
@@ -31,13 +31,13 @@ Ultimately, a Spin4 program has
 
 # Examples
 ## Hello World
-Hello World program in Spin4
+Hello World program in spin4
 ```
 {(+1>)x?y}(+0000>)*[<][<][y]y[>][>][x]x*[>][>][y]y[<][<][x]+[x]+[.c][x]x+[x]+[x]+[x]+[<][yx]y[>]-(+1054<5401>012111<)x(+0>)x[.c][<][<][<][<][yx]xy[>][>][>][>]+[xy]y+[.c][.c][x]x[<][<][<][y]y[>][>][>]+[.c][x]x+[>][>][x]x[<][y]x[<][<][<][<][<][<][.c][<][<][.c]y[.c][y][xy][yx][xy][y][.c][xy][.c][yx][.c]
 ```
 
 ## Fibonacci sequence
-As a tradition, here is the Fibonacci sequence in Spin4. This program takes a positive integer n as an input (stdin) and then prints a list of the n first Fibonacci numbers.
+As a tradition, here is the Fibonacci sequence in spin4. This program takes a positive integer n as an input (stdin) and then prints a list of the n first Fibonacci numbers.
 ```
 [,n](+00>)y*[y]*[x]*[>][x](-00<)(+0>)xxx[.n][<][.c][>][.n][xy]xy{[xy]+x[xy]xy[<][.c][>][.n][>][>][yx]y-[yx]yx[>][>][>]?y}
 ```
@@ -56,7 +56,7 @@ In 4D, we can form a total of 6 planes from the base vectors, a plane of rotatio
     - The accumulator vector state is changed: X and Y increment/decrement
     - The system becomes oriented in some way
     - Conceptually speaking, in order to compute the next state of the accumulator vector,
-    Spin4 takes the two only base vectors which generate the same plane as $\vec{u} = (1 \space 0  \space 0  \space 0)^T$ and $\vec{v} = (0 \space 1 \space 0 \space 0)^T$.
+    spin4 takes the two only base vectors which generate the same plane as $\vec{u} = (1 \space 0  \space 0  \space 0)^T$ and $\vec{v} = (0 \space 1 \space 0 \space 0)^T$.
     Suppose for example that we have the columns $(0 \space -1 \space 0 \space 0)^T$ and $(1 \space 0 \space 0 \space 0)^T$ in the system matrix, the orientation signature becomes `[-1, 1]`, we can then compute the next accumulator state `current_acc + [-1, 1]`.
 
     The easiest implementation for computing the signature is to iterate through each column pair combination $(\vec{u}', \vec{v}')$ that satisfies the projections $\vec{u}.\vec{v}'=0$ and $\vec{u}'.\vec{v}=0$, which basically guarantees that the generated plane is congruent to the initial.
