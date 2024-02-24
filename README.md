@@ -1,16 +1,15 @@
 # spin4
-spin4 is an esoteric programming language that uses 4D rotations for computations. Its main philosophy is to write programs by rotating the 4D space which encodes a state, this state is then used to increment or decrement the registers. The register values can be put on the stack, the later can also be rotated in one direction.
+[spin4](https://esolangs.org/wiki/Spin4) is an esoteric programming language that uses 4D rotations for computations. Its main philosophy is to write programs by rotating the 4D space which encodes a state, this state is then used to increment or decrement the registers. The register values can be put on the stack, the later can also be rotated in one direction.
 
 # Why ?
 Yes.
 
 # spin4 interpeter
-The current spin4 interpeter is not optimised and serves only as a proof of concept.
+The current spin4 interpeter is not optimized and serves only as a proof of concept.
 Installation
 ```
 cargo install spin4
 ```
-
 ```
 Usage: spin4 [OPTIONS] --file <FILE>
 
@@ -30,7 +29,7 @@ Ultimately, a spin4 program has
 - A single stack:
     - We can push the value of the accumulator one component at a time i.e. push the value of X or Y
     - We can perform a push with the standard input
-    - It can be rotated left or right
+    - We can rotate it from left or right
     - We can pop the top element to one of the registers
     - We can display the top element
 
@@ -62,7 +61,7 @@ In 4D, we can form a total of 6 planes from the base vectors, a plane of rotatio
     - The system becomes oriented in some way
     - Conceptually speaking, in order to compute the next state of the accumulator vector,
     spin4 takes the two only base vectors which generate the same plane as $\vec{u} = (1 \space 0  \space 0  \space 0)^T$ and $\vec{v} = (0 \space 1 \space 0 \space 0)^T$.
-    Suppose for example that we have the columns $(0 \space -1 \space 0 \space 0)^T$ and $(1 \space 0 \space 0 \space 0)^T$ in the system matrix, the orientation signature becomes `[-1, 1]`, we can then compute the next accumulator state `current_acc + [-1, 1]`.
+    Suppose for example that we have the columns $(0 \space -1 \space 0 \space 0)^T$ and $(1 \space 0 \space 0 \space 0)^T$ in the system matrix, the orientation signature becomes `[-1, 1]`, we can then compute the next accumulator state `acc <- acc + [-1, 1]`.
 
     The easiest implementation for computing the signature is to iterate through each column pair combination $(\vec{u}', \vec{v}')$ that satisfies the projections $\vec{u}.\vec{v}'=0$ and $\vec{u}'.\vec{v}=0$, which basically guarantees that the generated plane is congruent to the initial.
 
@@ -137,6 +136,3 @@ The accumulator vector then becomes [-1, 1]
 - Example 4:
 
     The `x` in the expression `(-01>3<)x` extracts the `x` component of the accumulator and store it in the stack.
-
-# Links
-* [Spin4 Wiki](https://esolangs.org/wiki/Spin4)

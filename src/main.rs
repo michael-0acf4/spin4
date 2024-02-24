@@ -40,26 +40,29 @@ fn main() {
             }
         },
         None => {
-            println!(r#"Welcome to spin4 interactive mode, type "clear" to reset."#);
+            println!(r#"Welcome to spin4 interactive mode, type "clear"/"debug" to reset/display the state"#);
             let mut program = Program::new();
             loop {
-                let text = load_program();
-                if text.trim() == "clear" {
-                    program = Program::new();
-                    continue;
+                match load_program().trim() {
+                    "clear" => {
+                        program = Program::new();
+                    },
+                    "debug" => {
+                        println!("\n=======");
+                        program.system.display();
+                        println!("\n=======\n");
+                    }
+                    code => {
+                        program.load_string(&code);
+                        if let Err(e) = program.run() {
+                            println!("=======");
+                            print!("{}", e.to_string());
+                        }
+                        println!("\n");
+                    }
                 }
-                program.load_string(&text);
-                if let Err(e) = program.run() {
-                    println!("=======");
-                    print!("{}", e.to_string());
-                } else {
-                    println!("\n=======");
-                    program.system.display();
-                }
-                println!("\n=======\n");
             }
         },
     }
-
 
 }

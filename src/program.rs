@@ -176,7 +176,7 @@ impl Program {
 
     fn handle_comment(&mut self) -> Result<()> {
         self.next_char('"')?;
-        while self.curr() != '"' {
+        while self.curr() != '"' && !self.is_eof() {
             self.next();
         }
         self.next_char('"')?;
