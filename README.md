@@ -1,5 +1,5 @@
 # spin4
-[spin4](https://esolangs.org/wiki/Spin4) is an esoteric programming language that uses 4D rotations for computations. Its main philosophy is to write programs by rotating the 4D space which encodes a state, this state is then used to increment or decrement the registers. The register values can be put on the stack, the later can also be rotated in one direction.
+[spin4](https://esolangs.org/wiki/Spin4) is an esoteric programming language that uses 4D rotations for computations. Its main philosophy is to write programs by rotating the 4D space which encodes a state, this state is then used to increment or decrement an accumulator vector. The accumulator components can then be put on the stack, the later can also be rotated in one direction.
 
 # Why ?
 Yes.
