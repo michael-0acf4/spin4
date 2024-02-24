@@ -40,7 +40,8 @@ fn main() {
             }
         },
         None => {
-            println!(r#"Welcome to spin4 interactive mode, type "clear"/"debug" to reset/display the state"#);
+            println!("Welcome to spin4 interactive mode");
+            println!(r#"Type "clear"/"debug" to reset/display the state"#);
             let mut program = Program::new();
             loop {
                 match load_program().trim() {
